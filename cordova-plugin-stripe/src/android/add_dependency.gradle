@@ -1,0 +1,16 @@
+repositories{
+   flatDir {
+     dirs 'libs'
+   }
+}
+
+dependencies {
+    compile files('libs/alipaySdk.aar')
+}
+
+android {
+ packagingOptions {
+  exclude 'META-INF/NOTICE'
+  exclude 'META-INF/LICENSE'
+ }
+}

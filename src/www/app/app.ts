@@ -12,11 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {SHADOWSOCKS_URI} from 'ShadowsocksConfig/shadowsocks_config';
+/// <reference path='../../types/ambient/stripePlugin.d.ts'/>
+
+import {SHADOWSOCKS_URI} from 'outline-shadowsocksconfig/shadowsocks_config';
 
 import * as errors from '../model/errors';
 import * as events from '../model/events';
 import {Server} from '../model/server';
+
 
 import {Clipboard} from './clipboard';
 import {EnvironmentVariables} from './environment';
@@ -99,6 +102,7 @@ export class App {
     this.rootEl.addEventListener('ForgetPressed', this.forgetServer.bind(this));
     this.rootEl.addEventListener('RenameRequested', this.renameServer.bind(this));
     this.rootEl.addEventListener('QuitPressed', this.quitApplication.bind(this));
+    this.rootEl.addEventListener('PayOrder', this.payOrder.bind(this));
     this.rootEl.addEventListener(
         'AutoConnectDialogDismissed', this.autoConnectDialogDismissed.bind(this));
     this.rootEl.addEventListener(
@@ -334,6 +338,13 @@ export class App {
       this.showLocalizedError(new errors.ServerAlreadyAdded(
           this.serverRepo.createServer('', serverConfig, this.eventQueue)));
     }
+  }
+
+  private payOrder(event: CustomEvent) {
+    console.warn('Payment event received');
+    const amount = event.detail.amount;
+    cordova.plugins.stripe.setPublishableKey('pk_test_Tss00n1II2Zhj4Y45IITfcVj00l0bsSuwc');
+    cordova.plugins.stripe.createSource('AliPay', {'amount': 100, 'currency': 'gbp', 'returnUrl': 'https://openinternetchina.com/charge/', 'name': 'Dominic Zijlstra', 'email': 'dominiczijlstra@gmail.com', 'redirect': 'https://openinternetchina.com/charge/'});
   }
 
   private forgetServer(event: CustomEvent) {

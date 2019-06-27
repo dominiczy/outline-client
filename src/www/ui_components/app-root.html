@@ -41,6 +41,7 @@
 <link rel="import" href="outline-icons.html">
 <link rel="import" href="privacy-view.html">
 <link rel="import" href="servers-view.html">
+<link rel="import" href="login-view.html">
 <link rel="import" href="server-rename-dialog.html">
 
 <dom-module id="app-root">
@@ -243,6 +244,7 @@
       </app-header>
 
       <iron-pages id="pages" selected="[[page]]" attr-for-selected="name">
+        <login-view name="login" id="loginView" root-path="[[rootPath]]" localize="[[localize]]"></login-view>
         <servers-view name="servers" id="serversView" servers="{{servers}}" root-path="[[rootPath]]" localize="[[localize]]"></servers-view>
         <feedback-view name="feedback" id="feedbackView" localize="[[localize]]"></feedback-view>
         <about-view name="about" id="aboutView" localize="[[localize]]" root-path="[[rootPath]]"></about-view>
@@ -293,6 +295,11 @@
       </div>
       <hr class="nav-hr"></hr>
       <paper-listbox id="drawer-nav" selected="{{routeData.page}}" attr-for-selected="name" on-tap="closeDrawer">
+        <paper-icon-item name="login">
+          <iron-icon icon="info" slot="item-icon"></iron-icon>
+          <!--should localize-->
+          <span class="item-label">[[localize('login-menu-item')]]</span>
+        </paper-icon-item>
         <paper-icon-item name="servers">
           <iron-icon icon="outline-icons:outline" slot="item-icon"></iron-icon>
           <span class="item-label">[[localize('servers-menu-item')]]</span>
@@ -413,7 +420,7 @@
         DEFAULT_PAGE: {
           type: String,
           readonly: true,
-          value: 'servers'
+          value: 'login'
         },
         DEFAULT_LANGUAGE: {
           type: String,

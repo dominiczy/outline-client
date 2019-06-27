@@ -1,0 +1,107 @@
+<!--
+  Copyright 2018 The Outline Authors
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="server-list.html">
+<link rel="import" href="server-connection-viz.html">
+<link rel="import" href="user-comms-dialog.html">
+<link rel="import" href="./server-card.html">
+
+<dom-module id="login-view">
+  <template>
+    <style>
+      :host {
+        margin: 0!important;
+        width: 100%;
+        height: 100%;
+        /* Use vh, as % does not work in iOS. |header-height|+|server-margin| = 64px.
+         * Subtract |header-height| to fix iOS padding, and |server-margin| to fix scrolling in Android.
+         */
+        height: -webkit-calc(100vh - 64px);
+        font-size: 14px;
+        line-height: 20px;
+      };
+      :host a {
+        color: var(--medium-green);
+        text-decoration: none;
+      }
+      /* Do not remove, this allows the hidden attribute to work with flex displays. */
+      [hidden] {
+        display: none !important;
+      }
+      paper-button {
+        display: flex;
+        flex-direction: column;
+        text-transform: none;
+        outline: none; /* Remove outline for Safari. */
+      }
+      server-card {
+        margin: 8px auto;
+        max-width: 400px; /* better card spacing on pixel and iphone */
+        padding: 0 8px;  /* Necessary for smaller displays */
+      }
+      @media (min-width: 600px) {
+        server-card {
+          margin: 24px auto;
+          max-width: 550px;
+        }
+      }
+    </style>
+
+    <div class="card">
+      <div id="unauthenticated">
+        <h1>Log In</h1>
+        <p><strong>Log in</strong> or <strong>sign up</strong></p>
+        <paper-input-container>
+          <label slot="input">Username</label>
+          <iron-input slot="input" bind-value="">
+            <input id="username" type="text" value="" placeholder="Username">
+          </iron-input>
+        </paper-input-container>
+        <paper-input-container>
+          <label>Password</label>
+          <iron-input slot="input" bind-value="">
+            <input id="password" type="password" value="" placeholder="Password">
+          </iron-input>
+        </paper-input-container>
+        <div class="wrapper-btns">
+          <paper-button raised class="primary" on-tap="postLogin">Log In</paper-button>
+          <paper-button class="link" on-tap="postRegister">Sign Up</paper-button>
+        </div>
+      </div>
+    </div>
+
+    <paper-button id="payButton" on-tap="_payOrder">Pay</paper-button>
+
+    <server-card server-id="1" server-name="test" server-host="1.2.3.4" server-port="8000" localize="[[localize]]"
+        root-path="[[rootPath]]"></server-card>
+  </template>
+
+  <script>
+    'use strict';
+    Polymer({
+      is: 'login-view',
+      properties: {
+        localize: Function,
+        rootPath: String,
+      },
+      _payOrder: function() {
+        let eventId = 'PayOrder';
+        this.fire(eventId, {amount: 100});
+      },
+    });
+  </script>
+</dom-module>

@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "target": "es2017",
+    "sourceMap": false,
+    "declaration": true
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "include": [
+    "www/CordovaStripe.ts"
+  ]
+}

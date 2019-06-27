@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='utf-8'?>
+<plugin id="cordova-plugin-stripe" version="1.5.3" xmlns="http://apache.org/cordova/ns/plugins/1.0"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>cordova-plugin-stripe</name>
+
+    <js-module name="CordovaStripePlugin" src="www/CordovaStripePlugin.js">
+        <clobbers target="cordova.plugins.stripe"/>
+    </js-module>
+    <js-module name="CordovaStripe" src="www/CordovaStripe.js"/>
+
+    <platform name="android">
+
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="CordovaStripe">
+                <param name="android-package" value="com.zyramedia.cordova.stripe.CordovaStripe"/>
+            </feature>
+        </config-file>
+
+        <config-file parent="/manifest/application" target="AndroidManifest.xml">
+            <activity
+              android:name="com.zyramedia.cordova.stripe.CordovaStripe">
+              <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <!--corresponds to a redirect URL of "mycompany://alipay" -->
+                <data
+                    android:host="alipay"
+                    android:scheme="zyramedia"/>
+              </intent-filter>
+            </activity>
+
+            <meta-data
+                    android:name="com.google.android.gms.wallet.api.enabled"
+                    android:value="true"/>
+        </config-file>
+
+        <source-file src="src/android/CordovaStripe.java" target-dir="src/com/zyramedia/cordova/stripe"/>
+        <framework src="com.google.android.gms:play-services-wallet:11.4.2"/>
+        <framework src="com.android.support:support-v4:26.0.1"/>
+        <framework src="com.android.support:appcompat-v7:26.0.1"/>
+        <framework src="com.google.code.gson:gson:2.8.5"/>
+        <framework src="com.stripe:stripe-android:8.1.0"/>
+        <resource-file src="src/android/alipaySdk.aar" target="libs/alipaySdk.aar"/>
+        <framework src="src/android/add_dependency.gradle" custom="true" type="gradleReference" />
+    </platform>
+
+    <platform name="ios">
+
+        <config-file target="config.xml" parent="/*">
+            <feature name="CordovaStripe">
+                <param name="ios-package" value="CordovaStripe"/>
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/CordovaStripe.h"/>
+        <source-file src="src/ios/CordovaStripe.m"/>
+
+        <header-file src="src/ios/AppDelegate+CordovaStripe.h"/>
+        <source-file src="src/ios/AppDelegate+CordovaStripe.m"/>
+
+        <framework src="src/ios/Stripe.framework" custom="true"/>
+
+    </platform>
+
+    <platform name="browser">
+
+        <config-file target="config.xml" parent="/*">
+            <feature name="CordovaStripe">
+                <param name="browser-package" value="CordovaStripe"/>
+            </feature>
+        </config-file>
+
+        <js-module src="src/browser/CordovaStripe.js" name="CordovaStripe">
+            <runs/>
+        </js-module>
+
+    </platform>
+
+</plugin>
