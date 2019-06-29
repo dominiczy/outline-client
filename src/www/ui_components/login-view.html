@@ -15,10 +15,12 @@
 -->
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
 <link rel="import" href="server-list.html">
 <link rel="import" href="server-connection-viz.html">
 <link rel="import" href="user-comms-dialog.html">
-<link rel="import" href="./server-card.html">
 
 <dom-module id="login-view">
   <template>
@@ -33,7 +35,7 @@
         height: -webkit-calc(100vh - 64px);
         font-size: 14px;
         line-height: 20px;
-      };
+      }
       :host a {
         color: var(--medium-green);
         text-decoration: none;
@@ -42,52 +44,100 @@
       [hidden] {
         display: none !important;
       }
+      .alert-error {
+        background: #ffcdd2;
+        border: 1px solid #f44336;
+        border-radius: 3px;
+        color: #333;
+        font-size: 14px;
+        padding: 10px;
+      }
       paper-button {
         display: flex;
         flex-direction: column;
         text-transform: none;
         outline: none; /* Remove outline for Safari. */
       }
-      server-card {
-        margin: 8px auto;
-        max-width: 400px; /* better card spacing on pixel and iphone */
-        padding: 0 8px;  /* Necessary for smaller displays */
-      }
-      @media (min-width: 600px) {
-        server-card {
-          margin: 24px auto;
-          max-width: 550px;
-        }
-      }
     </style>
 
+    <iron-ajax
+      id="registerLoginAjax"
+      method="post"
+      content-type="application/json"
+      headers="[[_acceptHeader()]]"
+      handle-as="text"
+      on-response="handleUserResponse"
+      on-error="handleUserError">
+    </iron-ajax>
+
+    <iron-ajax
+      id="getDataAjax"
+      method="get"
+      content-type="application/json"
+      headers="[[_authorizationHeader(storedUser)]]"
+      handle-as="text"
+      on-response="handleDataResponse"
+      on-error="handleUserError">
+    </iron-ajax>
+
     <div class="card">
-      <div id="unauthenticated">
-        <h1>Log In</h1>
-        <p><strong>Log in</strong> or <strong>sign up</strong></p>
-        <paper-input-container>
-          <label slot="input">Username</label>
-          <iron-input slot="input" bind-value="">
-            <input id="username" type="text" value="" placeholder="Username">
-          </iron-input>
-        </paper-input-container>
-        <paper-input-container>
-          <label>Password</label>
-          <iron-input slot="input" bind-value="">
-            <input id="password" type="password" value="" placeholder="Password">
-          </iron-input>
-        </paper-input-container>
-        <div class="wrapper-btns">
-          <paper-button raised class="primary" on-tap="postLogin">Log In</paper-button>
-          <paper-button class="link" on-tap="postRegister">Sign Up</paper-button>
+
+      <div id="notbuying" hidden$="[[isBuying]]">
+
+        <template is="dom-if" if="[[error]]">
+          <p class="alert-error"><strong>Error:</strong> [[error]]</p>
+        </template>
+
+        <div id="unauthenticated" hidden$="[[storedUser.loggedin]]">
+          <h1>Log In</h1>
+          <p><strong>Log in</strong> or <strong>sign up</strong></p>
+          <paper-input-container>
+            <label slot="input">Username</label>
+            <iron-input slot="input" bind-value="{{formData.username}}">
+              <input class="input-style" id="username" type="text" value="{{formData.username}}" placeholder="Username">
+            </iron-input>
+          </paper-input-container>
+          <paper-input-container>
+            <label>Password</label>
+            <iron-input slot="input" bind-value="{{formData.password}}">
+              <input id="password" type="password" value="{{formData.password}}" placeholder="Password">
+            </iron-input>
+          </paper-input-container>
+          <div class="wrapper-btns">
+            <paper-button raised class="primary" on-tap="postLogin">Log In</paper-button>
+            <paper-button class="link" on-tap="postRegister">Sign Up</paper-button>
+          </div>
         </div>
+
+        <template is="dom-if" if="[[storedUser.loggedin]]">
+
+          <template is="dom-if" if="[[userData.has_active_order]]">
+            <server-list id="serverList" servers="{{servers}}" localize="[[localize]]" root-path="[[rootPath]]"></server-list>
+          </template>
+
+          <div id="expired" hidden$="[[userData.has_active_order]]">
+            <h1>Your connection is expired</h1>
+          </div>
+
+          <paper-button class="link" on-tap="toggleBuyPage">Buy new access key</paper-button>
+        </template>
       </div>
+
+
+      <template is="dom-if" if="[[isBuying]]">
+        <h1>Buy access key for</h1>
+        <paper-radio-group selected="year">
+          <template is="dom-repeat" items="[[userData.products]]">
+            <paper-radio-button name="[[item.name]]">[[item.name]]: [[item.display_price]]</paper-radio-button>
+          </template>
+        </paper-radio-group>
+
+        <paper-button id="payButton" on-tap="_payOrder">Pay</paper-button>
+
+        <paper-button class="link" on-tap="toggleBuyPage">Cancel</paper-button>
+      </template>
+
     </div>
-
-    <paper-button id="payButton" on-tap="_payOrder">Pay</paper-button>
-
-    <server-card server-id="1" server-name="test" server-host="1.2.3.4" server-port="8000" localize="[[localize]]"
-        root-path="[[rootPath]]"></server-card>
   </template>
 
   <script>
@@ -97,10 +147,124 @@
       properties: {
         localize: Function,
         rootPath: String,
+        servers: Array,
+        formData: {
+          type: Object,
+          value: {}
+        },
+        storedUser: {
+          loggedin: false,
+        },
+        error: String,
+        userData: {
+          has_active_order: false
+        },
+        server_id: String,
+        isBuying: false,
       },
+
+      ready: function() {
+        if (this.getToken()) {
+          this.arrangeConnect();
+        }
+      },
+
+      toggleBuyPage() {
+        this.isBuying = !this.isBuying;
+      },
+
       _payOrder: function() {
         let eventId = 'PayOrder';
         this.fire(eventId, {amount: 100});
+      },
+
+      addServer() {
+        const accessKey = this.userData.access_key;
+        this.fire("AddServerDirectly", {'accessKey': accessKey});
+      },
+
+      _acceptHeader() {
+        return {
+          "Accept": "application/json"
+        };
+      },
+
+      _authorizationHeader(storedUser) {
+        let outputHeaders = this._acceptHeader();
+        let token = storedUser.token;
+        if (token) {
+          outputHeaders['Authorization'] = "Token " + token;
+        }
+        return outputHeaders;
+      },
+
+      api_server_address () {
+        return 'http://localhost:8000/'
+      },
+
+      arrangeConnect() {
+        this.setStoredUser();
+        this.getUserData();
+      },
+
+      getToken() {
+        return window.localStorage.getItem('token_oic');
+      },
+
+      setToken(token) {
+        window.localStorage.setItem('token_oic', token);
+      },
+
+      setStoredUser() {
+        this.storedUser = {
+          token: this.getToken(),
+          loggedin: true
+        };
+      },
+
+      getUserData() {
+        this.$.getDataAjax.url = this.api_server_address() + 'api_user_data/';
+        this.$.getDataAjax.generateRequest();
+      },
+
+      handleDataResponse(event) {
+        this.userData = JSON.parse(JSON.parse(event.detail.response));
+
+        this.error = '';
+        console.log(this.userData);
+        this.addServer();
+      },
+
+      _setReqBody() {
+        this.$.registerLoginAjax.body = this.formData;
+      },
+
+      postLogin() {
+        this.$.registerLoginAjax.url = this.api_server_address() + 'api_token_auth/';
+        this._setReqBody();
+        this.$.registerLoginAjax.generateRequest();
+      },
+
+      postRegister() {
+        this.$.registerLoginAjax.url = this.api_server_address() + '/accounts/register';
+        this._setReqBody();
+        this.$.registerLoginAjax.generateRequest();
+      },
+
+      handleUserResponse(event) {
+        let response = JSON.parse(event.detail.response);
+
+        if (response.token) {
+          this.setToken(response.token);
+          this.arrangeConnect();
+          this.error = '';
+        }
+
+        this.formData = {};
+      },
+
+      handleUserError(event) {
+        this.error = event.detail.request.xhr.response;
       },
     });
   </script>

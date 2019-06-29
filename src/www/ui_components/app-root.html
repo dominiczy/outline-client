@@ -244,7 +244,8 @@
       </app-header>
 
       <iron-pages id="pages" selected="[[page]]" attr-for-selected="name">
-        <login-view name="login" id="loginView" root-path="[[rootPath]]" localize="[[localize]]"></login-view>
+        <login-view name="login" id="loginView" servers="{{servers}}" root-path="[[rootPath]]" localize="[[localize]]"></login-view>
+        <buy-view name="buy" id="buyView" root-path="[[rootPath]]" localize="[[localize]]"></buy-view>
         <servers-view name="servers" id="serversView" servers="{{servers}}" root-path="[[rootPath]]" localize="[[localize]]"></servers-view>
         <feedback-view name="feedback" id="feedbackView" localize="[[localize]]"></feedback-view>
         <about-view name="about" id="aboutView" localize="[[localize]]" root-path="[[rootPath]]"></about-view>
@@ -299,6 +300,16 @@
           <iron-icon icon="info" slot="item-icon"></iron-icon>
           <!--should localize-->
           <span class="item-label">[[localize('login-menu-item')]]</span>
+        </paper-icon-item>
+        <paper-icon-item name="connect">
+          <iron-icon icon="info" slot="item-icon"></iron-icon>
+          <!--should localize-->
+          <span class="item-label">[[localize('connect-menu-item')]]</span>
+        </paper-icon-item>
+        <paper-icon-item name="buy">
+          <iron-icon icon="info" slot="item-icon"></iron-icon>
+          <!--should localize-->
+          <span class="item-label">[[localize('buy-menu-item')]]</span>
         </paper-icon-item>
         <paper-icon-item name="servers">
           <iron-icon icon="outline-icons:outline" slot="item-icon"></iron-icon>

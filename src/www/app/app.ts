@@ -103,6 +103,7 @@ export class App {
     this.rootEl.addEventListener('RenameRequested', this.renameServer.bind(this));
     this.rootEl.addEventListener('QuitPressed', this.quitApplication.bind(this));
     this.rootEl.addEventListener('PayOrder', this.payOrder.bind(this));
+    this.rootEl.addEventListener('AddServerDirectly', this.addServerDirectly.bind(this));
     this.rootEl.addEventListener(
         'AutoConnectDialogDismissed', this.autoConnectDialogDismissed.bind(this));
     this.rootEl.addEventListener(
@@ -338,6 +339,39 @@ export class App {
       this.showLocalizedError(new errors.ServerAlreadyAdded(
           this.serverRepo.createServer('', serverConfig, this.eventQueue)));
     }
+  }
+
+  private forgetAllServers() {
+    const servers = this.serverRepo.getAll();
+    console.debug('Servers before: '+ servers);
+    servers.map(server => {
+      return this.serverRepo.forget(server.id);
+    });
+    console.debug('Servers after: '+ this.serverRepo.getAll());
+  }
+
+  private addServerDirectly(event: CustomEvent) {
+    console.log('Servers before add: ' + this.serverRepo.getAll());
+    this.forgetAllServers();
+
+    let accessKey = event.detail.accessKey;
+    accessKey = unwrapInvite(accessKey);
+    let shadowsocksConfig = null;
+    shadowsocksConfig = SHADOWSOCKS_URI.parse(accessKey);
+    const name = shadowsocksConfig.extra.outline ?
+        this.localize('server-default-name-outline') :
+        shadowsocksConfig.tag.data ? shadowsocksConfig.tag.data :
+                                     this.localize('server-default-name');
+    const serverConfig = {
+      host: shadowsocksConfig.host.data,
+      port: shadowsocksConfig.port.data,
+      method: shadowsocksConfig.method.data,
+      password: shadowsocksConfig.password.data,
+      name,
+    };
+    this.serverRepo.add(serverConfig);
+
+    console.log('Servers after add: ' + this.serverRepo.getAll());
   }
 
   private payOrder(event: CustomEvent) {

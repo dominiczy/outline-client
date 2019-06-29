@@ -14,6 +14,7 @@
     "cordova-plugin-clipboard": "github:Jigsaw-Code/outline-cordova-plugin-clipboard#v2.0.0",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-outline": "file:cordova-plugin-outline",
+    "cordova-plugin-secure-storage": "^3.0.2",
     "cordova-plugin-splashscreen": "^5.0.2",
     "cordova-plugin-statusbar": "^2.2.3",
     "cordova-plugin-stripe": "file:cordova-plugin-stripe",
@@ -85,7 +86,8 @@
       "cordova-plugin-whitelist": {},
       "cordova-plugin-clipboard": {},
       "cordova-webintent": {},
-      "cordova-plugin-stripe": {}
+      "cordova-plugin-stripe": {},
+      "cordova-plugin-secure-storage": {}
     },
     "platforms": [
       "browser",
