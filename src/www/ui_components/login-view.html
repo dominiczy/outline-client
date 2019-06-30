@@ -13,8 +13,10 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/iron-input/iron-input.html">
 <link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
 <link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
 <link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
@@ -90,22 +92,21 @@
 
         <div id="unauthenticated" hidden$="[[storedUser.loggedin]]">
           <h1>Log In</h1>
-          <p><strong>Log in</strong> or <strong>sign up</strong></p>
+          <p><strong>Log in</strong></p>
           <paper-input-container>
             <label slot="input">Username</label>
-            <iron-input slot="input" bind-value="{{formData.username}}">
-              <input class="input-style" id="username" type="text" value="{{formData.username}}" placeholder="Username">
+            <iron-input slot="input" bind-value="{{formUser}}">
+              <input class="input-style" id="username" type="text" value="{{formUser}}" placeholder="Username">
             </iron-input>
           </paper-input-container>
           <paper-input-container>
             <label>Password</label>
-            <iron-input slot="input" bind-value="{{formData.password}}">
-              <input id="password" type="password" value="{{formData.password}}" placeholder="Password">
+            <iron-input slot="input" bind-value="{{formPassword}}">
+              <input id="password" type="password" value="{{formPassword}}" placeholder="Password">
             </iron-input>
           </paper-input-container>
           <div class="wrapper-btns">
             <paper-button raised class="primary" on-tap="postLogin">Log In</paper-button>
-            <paper-button class="link" on-tap="postRegister">Sign Up</paper-button>
           </div>
         </div>
 
@@ -126,7 +127,7 @@
 
       <template is="dom-if" if="[[isBuying]]">
         <h1>Buy access key for</h1>
-        <paper-radio-group selected="year">
+        <paper-radio-group selected="[[chosenProduct]]">
           <template is="dom-repeat" items="[[userData.products]]">
             <paper-radio-button name="[[item.name]]">[[item.name]]: [[item.display_price]]</paper-radio-button>
           </template>
@@ -148,10 +149,8 @@
         localize: Function,
         rootPath: String,
         servers: Array,
-        formData: {
-          type: Object,
-          value: {}
-        },
+        formUser: '',
+        formPassword: '',
         storedUser: {
           loggedin: false,
         },
@@ -161,12 +160,15 @@
         },
         server_id: String,
         isBuying: false,
+        chosenProduct: String,
       },
 
       ready: function() {
         if (this.getToken()) {
           this.arrangeConnect();
         }
+
+        this.chosenProduct = 'year';
       },
 
       toggleBuyPage() {
@@ -174,8 +176,19 @@
       },
 
       _payOrder: function() {
+        let product_name = this.chosenProduct;
+        let product = this.userData.products.find(obj => {
+          return obj.name === product_name
+        });
+        let name = product_name;
+        let amount = product.pay_price;
+        let email = this.userData.user_email;
+
         let eventId = 'PayOrder';
-        this.fire(eventId, {amount: 100});
+        let eventDct = {amount: amount, name: name, email: email};
+        console.log('paying ');
+        console.log(eventDct);
+        this.fire(eventId, eventDct);
       },
 
       addServer() {
@@ -199,7 +212,7 @@
       },
 
       api_server_address () {
-        return 'http://localhost:8000/'
+        return 'https://openinternetchina.com/';
       },
 
       arrangeConnect() {
@@ -232,21 +245,17 @@
 
         this.error = '';
         console.log(this.userData);
-        this.addServer();
+        if (this.userData.has_active_order) {
+          this.addServer();
+        }
       },
 
       _setReqBody() {
-        this.$.registerLoginAjax.body = this.formData;
+        this.$.registerLoginAjax.body = {'username': this.formUser, 'password': this.formPassword};
       },
 
       postLogin() {
         this.$.registerLoginAjax.url = this.api_server_address() + 'api_token_auth/';
-        this._setReqBody();
-        this.$.registerLoginAjax.generateRequest();
-      },
-
-      postRegister() {
-        this.$.registerLoginAjax.url = this.api_server_address() + '/accounts/register';
         this._setReqBody();
         this.$.registerLoginAjax.generateRequest();
       },
@@ -259,8 +268,6 @@
           this.arrangeConnect();
           this.error = '';
         }
-
-        this.formData = {};
       },
 
       handleUserError(event) {

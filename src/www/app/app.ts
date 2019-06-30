@@ -377,8 +377,12 @@ export class App {
   private payOrder(event: CustomEvent) {
     console.warn('Payment event received');
     const amount = event.detail.amount;
+    const currency = 'gbp';
+    const returnUrl = 'https://openinternetchina.com/charge/';
+    const name = event.detail.name;
+    const email = event.detail.email;
     cordova.plugins.stripe.setPublishableKey('pk_test_Tss00n1II2Zhj4Y45IITfcVj00l0bsSuwc');
-    cordova.plugins.stripe.createSource('AliPay', {'amount': 100, 'currency': 'gbp', 'returnUrl': 'https://openinternetchina.com/charge/', 'name': 'Dominic Zijlstra', 'email': 'dominiczijlstra@gmail.com', 'redirect': 'https://openinternetchina.com/charge/'});
+    cordova.plugins.stripe.createSource('AliPay', {'amount': amount, 'currency': currency, 'returnUrl': returnUrl, 'name': name, 'email': email});
   }
 
   private forgetServer(event: CustomEvent) {
