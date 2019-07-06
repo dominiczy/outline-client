@@ -73,6 +73,16 @@
     </iron-ajax>
 
     <iron-ajax
+      id="registerLoginAccessKeyAjax"
+      method="post"
+      content-type="application/json"
+      headers="[[_acceptHeader()]]"
+      handle-as="text"
+      on-response="handleUserResponse"
+      on-error="handleUserError">
+    </iron-ajax>
+
+    <iron-ajax
       id="getDataAjax"
       method="get"
       content-type="application/json"
@@ -80,6 +90,22 @@
       handle-as="text"
       on-response="handleDataResponse"
       on-error="handleUserError">
+    </iron-ajax>
+
+    <iron-ajax
+      id="serverReachableAjax"
+      method="post"
+      content-type="application/json"
+      headers="[[_authorizationHeader(storedUser)]]"
+      handle-as="text">
+    </iron-ajax>
+
+    <iron-ajax
+      id="feedbackAjax"
+      method="post"
+      content-type="application/json"
+      headers="[[_authorizationHeader(storedUser)]]"
+      handle-as="text">
     </iron-ajax>
 
     <div class="card">
@@ -90,17 +116,16 @@
           <p class="alert-error"><strong>Error:</strong> [[error]]</p>
         </template>
 
-        <div id="unauthenticated" hidden$="[[storedUser.loggedin]]">
-          <h1>Log In</h1>
-          <p><strong>Log in</strong></p>
+        <div id="unauthenticated" hidden$="[[loggedIn]]">
+          <h1>[[localize('login-title')]]</h1>
           <paper-input-container>
-            <label slot="input">Username</label>
+            <label slot="input">[[localize('email-field')]]</label>
             <iron-input slot="input" bind-value="{{formUser}}">
               <input class="input-style" id="username" type="text" value="{{formUser}}" placeholder="Username">
             </iron-input>
           </paper-input-container>
           <paper-input-container>
-            <label>Password</label>
+            <label>[[localize('password-field')]]</label>
             <iron-input slot="input" bind-value="{{formPassword}}">
               <input id="password" type="password" value="{{formPassword}}" placeholder="Password">
             </iron-input>
@@ -110,32 +135,32 @@
           </div>
         </div>
 
-        <template is="dom-if" if="[[storedUser.loggedin]]">
-
-          <template is="dom-if" if="[[userData.has_active_order]]">
+        <div id="authenticated" hidden$="[[loggedOut]]">
+          <div id="notexpired" hidden$="[[hasNoActiveOrder]]">
             <server-list id="serverList" servers="{{servers}}" localize="[[localize]]" root-path="[[rootPath]]"></server-list>
-          </template>
-
-          <div id="expired" hidden$="[[userData.has_active_order]]">
-            <h1>Your connection is expired</h1>
           </div>
 
-          <paper-button class="link" on-tap="toggleBuyPage">Buy new access key</paper-button>
-        </template>
+          <div id="expired" hidden$="[[hasActiveOrder]]">
+            <h1>[[localize('expired-title')]]</h1>
+            <p>[[localize('expired-text')]]</p>
+          </div>
+
+          <paper-button class="link" on-tap="toggleBuyPage">[[localize('buy-button-text')]]</paper-button>
+        </div>
       </div>
 
 
       <template is="dom-if" if="[[isBuying]]">
-        <h1>Buy access key for</h1>
-        <paper-radio-group selected="[[chosenProduct]]">
-          <template is="dom-repeat" items="[[userData.products]]">
-            <paper-radio-button name="[[item.name]]">[[item.name]]: [[item.display_price]]</paper-radio-button>
+        <h1>[[localize('buy-title')]]</h1>
+        <paper-radio-group selected="{{chosenProduct}}">
+          <template is="dom-repeat" items="[[productsLocalized(userData, localize)]]">
+            <paper-radio-button name="[[item.name]]">[[item.display_name]]: [[localize('pound-sign')]] [[item.display_price]]</paper-radio-button><br>
           </template>
         </paper-radio-group>
 
-        <paper-button id="payButton" on-tap="_payOrder">Pay</paper-button>
+        <paper-button id="payButton" on-tap="_payOrder">[[localize('alipay-button-text')]]</paper-button>
 
-        <paper-button class="link" on-tap="toggleBuyPage">Cancel</paper-button>
+        <paper-button class="link" on-tap="toggleBuyPage">[[localize('cancel-button-text')]]</paper-button>
       </template>
 
     </div>
@@ -154,19 +179,22 @@
         storedUser: {
           loggedin: false,
         },
+        loggedIn: false,
+        loggedOut: true,
+        accessKeyClipBoard: String,
         error: String,
         userData: {
           has_active_order: false
         },
+        hasActiveOrder: false,
+        hasNoActiveOrder: true,
         server_id: String,
         isBuying: false,
         chosenProduct: String,
       },
 
       ready: function() {
-        if (this.getToken()) {
-          this.arrangeConnect();
-        }
+        this.arrangeConnect();
 
         this.chosenProduct = 'year';
       },
@@ -216,8 +244,10 @@
       },
 
       arrangeConnect() {
-        this.setStoredUser();
-        this.getUserData();
+        if (this.getToken()) {
+          this.setStoredUser();
+          this.getUserData();
+        }
       },
 
       getToken() {
@@ -233,31 +263,57 @@
           token: this.getToken(),
           loggedin: true
         };
+        this.loggedIn = true;
+        this.loggedOut = false;
+      },
+
+      loginFromAccessKey(accessKey) {
+        if (!this.loggedIn) {
+          this.setAccessKeyClipBoard(accessKey);
+          this.postLoginAccessKey();
+        }
+      },
+
+      setAccessKeyClipBoard(accessKey) {
+        this.accessKeyClipBoard = accessKey;
       },
 
       getUserData() {
-        this.$.getDataAjax.url = this.api_server_address() + 'api_user_data/';
-        this.$.getDataAjax.generateRequest();
+        if (this.loggedIn) {
+          this.$.getDataAjax.url = this.api_server_address() + 'api_user_data/';
+          this.$.getDataAjax.generateRequest();
+        }
+      },
+
+      setUserData(data) {
+        this.userData = data;
+        this.hasActiveOrder = this.userData.has_active_order;
+        this.hasNoActiveOrder = !this.userData.has_active_order;
       },
 
       handleDataResponse(event) {
-        this.userData = JSON.parse(JSON.parse(event.detail.response));
-
+        this.setUserData(JSON.parse(JSON.parse(event.detail.response)));
         this.error = '';
         console.log(this.userData);
-        if (this.userData.has_active_order) {
+        if (this.hasActiveOrder) {
           this.addServer();
         }
       },
 
       _setReqBody() {
-        this.$.registerLoginAjax.body = {'username': this.formUser, 'password': this.formPassword};
+        this.$.registerLoginAjax.body = {'email': this.formUser, 'password': this.formPassword};
       },
 
       postLogin() {
-        this.$.registerLoginAjax.url = this.api_server_address() + 'api_token_auth/';
+        this.$.registerLoginAjax.url = this.api_server_address() + 'api_authenticate_with_email/';
         this._setReqBody();
         this.$.registerLoginAjax.generateRequest();
+      },
+
+      postLoginAccessKey() {
+        this.$.registerLoginAccessKeyAjax.url = this.api_server_address() + 'api_authenticate_with_access_key/';
+        this.$.registerLoginAccessKeyAjax.body = {'accessKey': this.accessKeyClipBoard};
+        this.$.registerLoginAccessKeyAjax.generateRequest();
       },
 
       handleUserResponse(event) {
@@ -272,6 +328,35 @@
 
       handleUserError(event) {
         this.error = event.detail.request.xhr.response;
+      },
+
+      paymentComplete() {
+        this.getUserData();
+        this.isBuying = false;
+      },
+
+      serverReachable(reachable) {
+        this.$.serverReachableAjax.url = this.api_server_address() + 'api_server_reachable/';
+        this.$.serverReachableAjax.body = {'reachable': reachable};
+        this.$.serverReachableAjax.generateRequest();
+      },
+
+      feedback(feedback, category, email) {
+        this.$.feedbackAjax.url = this.api_server_address() + 'api_feedback/';
+        this.$.feedbackAjax.body = {'subject': category, 'from_email': email, 'message': feedback};
+        this.$.feedbackAjax.generateRequest();
+      },
+
+      productsLocalized(userData, localize) {
+        let products = userData.products;
+
+        let result = products.map(function(product) {
+          let prod = Object.assign({}, product);
+          prod.display_name = localize(product.name);
+          return prod;
+        });
+
+        return result;
       },
     });
   </script>

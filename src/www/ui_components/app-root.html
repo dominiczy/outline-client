@@ -245,7 +245,6 @@
 
       <iron-pages id="pages" selected="[[page]]" attr-for-selected="name">
         <login-view name="login" id="loginView" servers="{{servers}}" root-path="[[rootPath]]" localize="[[localize]]"></login-view>
-        <buy-view name="buy" id="buyView" root-path="[[rootPath]]" localize="[[localize]]"></buy-view>
         <servers-view name="servers" id="serversView" servers="{{servers}}" root-path="[[rootPath]]" localize="[[localize]]"></servers-view>
         <feedback-view name="feedback" id="feedbackView" localize="[[localize]]"></feedback-view>
         <about-view name="about" id="aboutView" localize="[[localize]]" root-path="[[rootPath]]"></about-view>
@@ -297,24 +296,14 @@
       <hr class="nav-hr"></hr>
       <paper-listbox id="drawer-nav" selected="{{routeData.page}}" attr-for-selected="name" on-tap="closeDrawer">
         <paper-icon-item name="login">
-          <iron-icon icon="info" slot="item-icon"></iron-icon>
-          <!--should localize-->
-          <span class="item-label">[[localize('login-menu-item')]]</span>
-        </paper-icon-item>
-        <paper-icon-item name="connect">
-          <iron-icon icon="info" slot="item-icon"></iron-icon>
-          <!--should localize-->
-          <span class="item-label">[[localize('connect-menu-item')]]</span>
-        </paper-icon-item>
-        <paper-icon-item name="buy">
-          <iron-icon icon="info" slot="item-icon"></iron-icon>
-          <!--should localize-->
-          <span class="item-label">[[localize('buy-menu-item')]]</span>
-        </paper-icon-item>
-        <paper-icon-item name="servers">
           <iron-icon icon="outline-icons:outline" slot="item-icon"></iron-icon>
-          <span class="item-label">[[localize('servers-menu-item')]]</span>
+          [[localize('login-page-title')]]
         </paper-icon-item>
+
+        <!--<paper-icon-item name="servers">-->
+          <!--<iron-icon icon="outline-icons:outline" slot="item-icon"></iron-icon>-->
+          <!--<span class="item-label">[[localize('servers-menu-item')]]</span>-->
+        <!--</paper-icon-item>-->
         <paper-icon-item name="feedback">
           <iron-icon id="feedback-icon" icon="feedback" slot="item-icon"></iron-icon>
           [[localize('feedback-page-title')]]
@@ -442,45 +431,45 @@
           type: Object,
           readonly: true,
           value: {
-            ar: {id: 'ar', dir: 'rtl'},
-            bg: {id: 'bg', dir: 'ltr'},
-            ca: {id: 'ca', dir: 'ltr'},
-            cs: {id: 'cs', dir: 'ltr'},
-            da: {id: 'da', dir: 'ltr'},
-            de: {id: 'de', dir: 'ltr'},
-            el: {id: 'el', dir: 'ltr'},
+            // ar: {id: 'ar', dir: 'rtl'},
+            // bg: {id: 'bg', dir: 'ltr'},
+            // ca: {id: 'ca', dir: 'ltr'},
+            // cs: {id: 'cs', dir: 'ltr'},
+            // da: {id: 'da', dir: 'ltr'},
+            // de: {id: 'de', dir: 'ltr'},
+            // el: {id: 'el', dir: 'ltr'},
             en: {id: 'en', dir: 'ltr'},
-            'es-419': {id: 'es-419', dir: 'ltr'},
-            fa: {id: 'fa', dir: 'rtl'},
-            fi: {id: 'fi', dir: 'ltr'},
-            fil: {id: 'fil', dir: 'ltr'},
-            fr: {id: 'fr', dir: 'ltr'},
-            he: {id: 'he', dir: 'rtl'},
-            hi: {id: 'hi', dir: 'ltr'},
-            hr: {id: 'hr', dir: 'ltr'},
-            hu: {id: 'hu', dir: 'ltr'},
-            id: {id: 'id', dir: 'ltr'},
-            it: {id: 'it', dir: 'ltr'},
-            ja: {id: 'ja', dir: 'ltr'},
-            ko: {id: 'ko', dir: 'ltr'},
-            lt: {id: 'lt', dir: 'ltr'},
-            lv: {id: 'lv', dir: 'ltr'},
-            nl: {id: 'nl', dir: 'ltr'},
-            no: {id: 'no', dir: 'ltr'},
-            pl: {id: 'pl', dir: 'ltr'},
-            'pt-BR': {id: 'pt-BR', dir: 'ltr'},
-            ro: {id: 'ro', dir: 'ltr'},
-            ru: {id: 'ru', dir: 'ltr'},
-            sk: {id: 'sk', dir: 'ltr'},
-            sl: {id: 'sl', dir: 'ltr'},
-            sr: {id: 'sr', dir: 'ltr'},
-            'sr-Latn': {id: 'sr-Latn', dir: 'ltr'},
-            sv: {id: 'sv', dir: 'ltr'},
-            th: {id: 'th', dir: 'ltr'},
-            tr: {id: 'tr', dir: 'ltr'},
-            uk: {id: 'uk', dir: 'ltr'},
-            ur: {id: 'ur', dir: 'rtl'},
-            vi: {id: 'vi', dir: 'ltr'},
+            // 'es-419': {id: 'es-419', dir: 'ltr'},
+            // fa: {id: 'fa', dir: 'rtl'},
+            // fi: {id: 'fi', dir: 'ltr'},
+            // fil: {id: 'fil', dir: 'ltr'},
+            // fr: {id: 'fr', dir: 'ltr'},
+            // he: {id: 'he', dir: 'rtl'},
+            // hi: {id: 'hi', dir: 'ltr'},
+            // hr: {id: 'hr', dir: 'ltr'},
+            // hu: {id: 'hu', dir: 'ltr'},
+            // id: {id: 'id', dir: 'ltr'},
+            // it: {id: 'it', dir: 'ltr'},
+            // ja: {id: 'ja', dir: 'ltr'},
+            // ko: {id: 'ko', dir: 'ltr'},
+            // lt: {id: 'lt', dir: 'ltr'},
+            // lv: {id: 'lv', dir: 'ltr'},
+            // nl: {id: 'nl', dir: 'ltr'},
+            // no: {id: 'no', dir: 'ltr'},
+            // pl: {id: 'pl', dir: 'ltr'},
+            // 'pt-BR': {id: 'pt-BR', dir: 'ltr'},
+            // ro: {id: 'ro', dir: 'ltr'},
+            // ru: {id: 'ru', dir: 'ltr'},
+            // sk: {id: 'sk', dir: 'ltr'},
+            // sl: {id: 'sl', dir: 'ltr'},
+            // sr: {id: 'sr', dir: 'ltr'},
+            // 'sr-Latn': {id: 'sr-Latn', dir: 'ltr'},
+            // sv: {id: 'sv', dir: 'ltr'},
+            // th: {id: 'th', dir: 'ltr'},
+            // tr: {id: 'tr', dir: 'ltr'},
+            // uk: {id: 'uk', dir: 'ltr'},
+            // ur: {id: 'ur', dir: 'rtl'},
+            // vi: {id: 'vi', dir: 'ltr'},
             zh: {id: 'zh', dir: 'ltr'},
             'zh-CN': {id: 'zh-CN', dir: 'ltr'},
             'zh-TW': {id: 'zh-TW', dir: 'ltr'},

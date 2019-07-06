@@ -342,7 +342,7 @@ public class CordovaStripe extends CordovaPlugin {
                     Log.d("Stripe", email);
                     sourceParams = SourceParams.createAlipaySingleUseParams(amount, currency, name, email, returnURL);
                     Log.d("Stripe", "got sourceParams");
-                    Toast.makeText(context, "before runnable", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "Buying for " + currency + amount, Toast.LENGTH_SHORT).show();
                     
                     invokeAlipayNative(sourceParams);
 
@@ -401,9 +401,9 @@ public class CordovaStripe extends CordovaPlugin {
                     String resultStatus = answer.get("resultStatus");
                     Context context = cordova.getActivity().getApplicationContext();
                     if (TextUtils.equals(resultStatus, "9000")) {
-                        Toast.makeText(context, "success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Processing payment", Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(context, "failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(context, "Payment failed", Toast.LENGTH_SHORT).show();
                     }
                     break;
                 default:
