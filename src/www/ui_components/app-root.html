@@ -25,6 +25,7 @@
 <link rel="import" href="../bower_components/app-localize-behavior/app-localize-behavior.html">
 
 <link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/iron-icons/social-icons.html">
 <link rel="import" href="../bower_components/iron-pages/iron-pages.html">
 
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
@@ -239,6 +240,7 @@
           </div>
           <div id="app-toolbar-right">
             <paper-icon-button id="addBtn" icon="add" on-tap="promptAddServer" hidden$="[[!shouldShowAddButton]]"></paper-icon-button>
+            <paper-icon-button id="shareBtn" icon="social:share" on-tap="shareOic"></paper-icon-button>
           </div>
         </app-toolbar>
       </app-header>
@@ -311,11 +313,6 @@
         <paper-icon-item name="about">
           <iron-icon icon="info" slot="item-icon"></iron-icon>
           [[localize('about-page-title')]]
-        </paper-icon-item>
-        <paper-icon-item name="help" class$="[[_computeIsLastVisibleMenuItem(shouldShowQuitButton)]]">
-          <a href="https://s3.amazonaws.com/outline-vpn/index.html#/support" id="helpAnchor" hidden></a>
-          <iron-icon icon="help" slot="item-icon"></iron-icon>
-          [[localize('help-page-title')]]
         </paper-icon-item>
         <paper-icon-item name="quit" class="last-menu-item"  hidden$="[[!shouldShowQuitButton]]">
           <iron-icon icon="cancel" slot="item-icon"></iron-icon>
@@ -600,6 +597,9 @@
       },
       promptAddServer: function () {
         this.$.addServerView.openAddServerSheet();
+      },
+      shareOic: function () {
+        window.plugins.socialsharing.share('OpenInternetChina', null, null, 'https://openinternetchina.com');
       },
       _computeLanguage: function (LANGUAGES_AVAILABLE, DEFAULT_LANGUAGE) {
         return OutlineI18n.getBestMatchingLanguage(

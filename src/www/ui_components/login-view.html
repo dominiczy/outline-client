@@ -54,12 +54,51 @@
         font-size: 14px;
         padding: 10px;
       }
-      paper-button {
-        display: flex;
-        flex-direction: column;
-        text-transform: none;
-        outline: none; /* Remove outline for Safari. */
+      .center {
+        margin: auto;
+        width: 300px;
       }
+      .center-wide {
+        margin: auto;
+        width: 350px;
+      }
+      .server-list-container {
+        background-color: #EFEFEF;
+        width: 100%;
+        height: 50%;
+      }
+      paper-button {
+        background: var(--light-green);
+        color: white;
+        width: 200px;
+        display: block;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        text-transform: none;
+      }
+      input {
+        position: relative; /* to make a stacking context */
+        outline: none;
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+        background: transparent;
+        border: none;
+        color: var(--paper-input-container-input-color, var(--primary-text-color));
+        -webkit-appearance: none;
+        text-align: inherit;
+        vertical-align: bottom;
+        /* Firefox sets a min-width on the input, which can cause layout issues */
+        min-width: 0;
+        @apply --paper-font-subhead;
+        @apply --paper-input-container-input;
+      }
+
     </style>
 
     <iron-ajax
@@ -116,18 +155,19 @@
           <p class="alert-error"><strong>Error:</strong> [[error]]</p>
         </template>
 
-        <div id="unauthenticated" hidden$="[[loggedIn]]">
+        <div id="unauthenticated" class="center" hidden$="[[loggedIn]]">
           <h1>[[localize('login-title')]]</h1>
+          <p>[[localize('login-hint-start')]]<a href="https://openinternetchina.com">openinternetchina.com</a>[[localize('login-hint-end')]]</p>
           <paper-input-container>
-            <label slot="input">[[localize('email-field')]]</label>
+            <label>[[localize('email-field')]]</label>
             <iron-input slot="input" bind-value="{{formUser}}">
-              <input class="input-style" id="username" type="text" value="{{formUser}}" placeholder="Username">
+              <input class="input-style" id="username" type="text" value="{{formUser}}" placeholder="[[localize('email-field')]]">
             </iron-input>
           </paper-input-container>
           <paper-input-container>
             <label>[[localize('password-field')]]</label>
             <iron-input slot="input" bind-value="{{formPassword}}">
-              <input id="password" type="password" value="{{formPassword}}" placeholder="Password">
+              <input id="password" type="password" value="{{formPassword}}" placeholder="[[localize('password-field')]]">
             </iron-input>
           </paper-input-container>
           <div class="wrapper-btns">
@@ -136,31 +176,34 @@
         </div>
 
         <div id="authenticated" hidden$="[[loggedOut]]">
-          <div id="notexpired" hidden$="[[hasNoActiveOrder]]">
+          <div id="notexpired" class="server-list-container" hidden$="[[hasNoActiveOrder]]">
             <server-list id="serverList" servers="{{servers}}" localize="[[localize]]" root-path="[[rootPath]]"></server-list>
           </div>
 
-          <div id="expired" hidden$="[[hasActiveOrder]]">
+          <div id="expired" class="center-wide" hidden$="[[hasActiveOrder]]">
             <h1>[[localize('expired-title')]]</h1>
             <p>[[localize('expired-text')]]</p>
           </div>
-
-          <paper-button class="link" on-tap="toggleBuyPage">[[localize('buy-button-text')]]</paper-button>
+          <div class="center">
+            <paper-button on-tap="toggleBuyPage">[[localize('buy-button-text')]]</paper-button>
+          </div>
         </div>
       </div>
 
 
       <template is="dom-if" if="[[isBuying]]">
-        <h1>[[localize('buy-title')]]</h1>
-        <paper-radio-group selected="{{chosenProduct}}">
-          <template is="dom-repeat" items="[[productsLocalized(userData, localize)]]">
-            <paper-radio-button name="[[item.name]]">[[item.display_name]]: [[localize('pound-sign')]] [[item.display_price]]</paper-radio-button><br>
-          </template>
-        </paper-radio-group>
+        <div class="center-wide">
+          <h1>[[localize('buy-title')]]</h1>
+          <paper-radio-group selected="{{chosenProduct}}">
+            <template is="dom-repeat" items="[[productsLocalized(userData, localize)]]">
+              <paper-radio-button name="[[item.name]]">[[item.display_name]]: [[localize('pound-sign')]] [[item.final_display_price]]</paper-radio-button><br>
+            </template>
+          </paper-radio-group>
 
-        <paper-button id="payButton" on-tap="_payOrder">[[localize('alipay-button-text')]]</paper-button>
+          <paper-button id="payButton" on-tap="_payOrder">[[localize('alipay-button-text')]]</paper-button>
 
-        <paper-button class="link" on-tap="toggleBuyPage">[[localize('cancel-button-text')]]</paper-button>
+          <paper-button on-tap="toggleBuyPage">[[localize('cancel-button-text')]]</paper-button>
+        </div>
       </template>
 
     </div>
@@ -194,9 +237,12 @@
       },
 
       ready: function() {
-        this.arrangeConnect();
-
+        this.loggedIn = false;
+        this.loggedOut = true;
         this.chosenProduct = 'year';
+        this.hasActiveOrder = false;
+        this.hasNoActiveOrder = true;
+        this.arrangeConnect();
       },
 
       toggleBuyPage() {
@@ -353,6 +399,14 @@
         let result = products.map(function(product) {
           let prod = Object.assign({}, product);
           prod.display_name = localize(product.name);
+
+          if (userData.has_small_discount) {
+            prod.final_display_price = product.display_price_small_discount + localize('discount-price');
+          } else if (userData.has_large_discount) {
+            prod.final_display_price = product.display_price_large_discount + localize('discount-price');
+          } else {
+            prod.final_display_price = product.display_price;
+          }
           return prod;
         });
 
