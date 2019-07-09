@@ -137,7 +137,8 @@ export class App {
     this.eventQueue.startPublishing();
 
     if (!this.arePrivacyTermsAcked()) {
-      this.displayPrivacyView();
+      // this.displayPrivacyView();
+      console.log('Privacy accepted silently for now');
     }
     this.displayZeroStateUi();
     this.pullClipboardText();

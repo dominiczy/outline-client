@@ -56,6 +56,8 @@
       }
       .center {
         margin: auto;
+        margin-bottom: 10px;
+        margin-top: 10px;
         width: 300px;
       }
       .center-wide {
@@ -155,7 +157,7 @@
           <p class="alert-error"><strong>Error:</strong> [[error]]</p>
         </template>
 
-        <div id="unauthenticated" class="center" hidden$="[[loggedIn]]">
+        <div id="unauthenticated" class="center-wide" hidden$="[[loggedIn]]">
           <h1>[[localize('login-title')]]</h1>
           <p>[[localize('login-hint-start')]]<a href="https://openinternetchina.com">openinternetchina.com</a>[[localize('login-hint-end')]]</p>
           <paper-input-container>
@@ -171,22 +173,23 @@
             </iron-input>
           </paper-input-container>
           <div class="wrapper-btns">
-            <paper-button raised class="primary" on-tap="postLogin">Log In</paper-button>
+            <paper-button raised class="primary" on-tap="postLogin">[[localize('login-title')]]</paper-button>
+            <paper-button raised class="primary" on-tap="postSignup">[[localize('signup-title')]]</paper-button>
           </div>
         </div>
 
         <div id="authenticated" hidden$="[[loggedOut]]">
           <div id="notexpired" class="server-list-container" hidden$="[[hasNoActiveOrder]]">
+            <paper-button class="center" on-tap="toggleBuyPage">[[localize('buy-button-text-alt')]]</paper-button>
             <server-list id="serverList" servers="{{servers}}" localize="[[localize]]" root-path="[[rootPath]]"></server-list>
           </div>
 
           <div id="expired" class="center-wide" hidden$="[[hasActiveOrder]]">
             <h1>[[localize('expired-title')]]</h1>
             <p>[[localize('expired-text')]]</p>
+            <paper-button class="center" on-tap="toggleBuyPage">[[localize('buy-button-text')]]</paper-button>
           </div>
-          <div class="center">
-            <paper-button on-tap="toggleBuyPage">[[localize('buy-button-text')]]</paper-button>
-          </div>
+
         </div>
       </div>
 
@@ -352,6 +355,12 @@
 
       postLogin() {
         this.$.registerLoginAjax.url = this.api_server_address() + 'api_authenticate_with_email/';
+        this._setReqBody();
+        this.$.registerLoginAjax.generateRequest();
+      },
+
+      postSignup() {
+        this.$.registerLoginAjax.url = this.api_server_address() + 'api_signup/';
         this._setReqBody();
         this.$.registerLoginAjax.generateRequest();
       },

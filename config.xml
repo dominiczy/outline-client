@@ -13,8 +13,8 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<?xml version='1.0' encoding='utf-8'?>
-<widget id="org.openinternetchina.android.client" version="1.0" android-versionCode="21" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<?xml version='1.1' encoding='utf-8'?>
+<widget id="org.openinternetchina.android.client" version="1.1" android-versionCode="21" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>OpenInternetChina</name>
     <description>
         Internet without borders (powered by Shadowsocks)
