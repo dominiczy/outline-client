@@ -408,7 +408,7 @@ export class App {
     const returnUrl = 'https://openinternetchina.com/charge/';
     const name = event.detail.name;
     const email = event.detail.email;
-    cordova.plugins.stripe.setPublishableKey('pk_test_Tss00n1II2Zhj4Y45IITfcVj00l0bsSuwc');
+    cordova.plugins.stripe.setPublishableKey('pk_live_NkeUgHrAQQTovEgNI22z26qR00fbAacxAp');
     cordova.plugins.stripe.createSource('AliPay', {'amount': amount, 'currency': currency, 'returnUrl': returnUrl, 'name': name, 'email': email}, this.paySuccess, this.payFail);
   }
 

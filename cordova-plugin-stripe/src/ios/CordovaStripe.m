@@ -289,6 +289,15 @@ NSArray *CardBrands = nil;
             CDVPluginResult *pluginResult;
             if (source != nil) {
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK messageAsDictionary:source.allResponseFields];
+                // Redirect for Alipay
+                if (source.flow == STPSourceFlowRedirect) {
+                    STPRedirectContext *redirectContext;
+                    redirectContext = [[STPRedirectContext alloc] initWithSource:source completion:^(NSString *sourceID, NSString *clientSecret, NSError *error) {
+                        
+                    }];
+                    [redirectContext startRedirectFlowFromViewController:self.viewController];
+                }
+                
             } else {
                 pluginResult = [CDVPluginResult resultWithStatus:CDVCommandStatus_ERROR messageAsString:error.localizedDescription];
             }
