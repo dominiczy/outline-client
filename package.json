@@ -25,6 +25,7 @@
     "electron-updater": "3.2.3",
     "es6-promise-plugin": "^4.2.2",
     "fs-extra": "^7.0.0",
+    "ios-deploy": "^1.9.4",
     "outline-shadowsocksconfig": "github:Jigsaw-Code/outline-shadowsocksconfig#v0.0.9",
     "raven": "^2.2.1",
     "raven-js": "^3.20.1",
@@ -90,7 +91,10 @@
       "cordova-webintent": {},
       "cordova-plugin-stripe": {},
       "cordova-plugin-secure-storage": {},
-      "cordova-plugin-x-socialsharing": {}
+      "cordova-plugin-x-socialsharing": {
+        "PHOTO_LIBRARY_ADD_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
+        "PHOTO_LIBRARY_USAGE_DESCRIPTION": "This app requires photo library access to function properly."
+      }
     },
     "platforms": [
       "browser",
