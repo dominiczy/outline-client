@@ -1,6 +1,6 @@
 {
-  "name": "outline-client",
-  "productName": "Outline",
+  "name": "oic-client",
+  "productName": "OIC",
   "scripts": {
     "clean": "rm -rf build www node_modules platforms/* plugins/*",
     "postinstall": "bower install || echo no bower needed",

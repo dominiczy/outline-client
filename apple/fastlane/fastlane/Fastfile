@@ -17,14 +17,14 @@ def configure_travis_environment
   setup_travis
   # Retrieve signing credentials and provisioning profiles.
   match(type: "appstore", readonly: true,
-        app_identifier: ["org.outline.ios.client", "org.outline.ios.client.VpnExtension"])
+        app_identifier: ["com.easycastle.OIC", "com.easycastle.OIC.VpnExtension"])
 
-  xcodeproj = "Outline.xcodeproj"
+  xcodeproj = "OIC.xcodeproj"
   disable_automatic_code_signing(path: xcodeproj)
   update_project_provisioning(
       xcodeproj: xcodeproj,
       profile: ENV["sigh_org.outline.ios.client_appstore_profile-path"],
-      target_filter: ".*Outline.*",
+      target_filter: ".*OIC.*",
       build_configuration: "Release")
   update_project_provisioning(
       xcodeproj: xcodeproj,
@@ -48,17 +48,17 @@ def configure_environment(local)
 end
 
 def build_outline
-  build_app(scheme: "Outline", export_xcargs: "-allowProvisioningUpdates")
+  build_app(scheme: "OIC", export_xcargs: "-allowProvisioningUpdates")
 end
 
 platform :ios do
-  desc "Build the Outline iOS client for release"
+  desc "Build the OIC iOS client for release"
   lane :package do |options|
     configure_environment(options[:local])
     build_outline
   end
 
-  desc "Upload a release build of the Outline iOS client to the App Store"
+  desc "Upload a release build of the OIC iOS client to the App Store"
   lane :release do |options|
     package(local: options[:local])
     upload_to_app_store(skip_metadata: true, skip_screenshots: true)
