@@ -12,11 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import {SHADOWSOCKS_URI} from 'ShadowsocksConfig/shadowsocks_config';
+/// <reference path='../../types/ambient/stripePlugin.d.ts'/>
+
+import {SHADOWSOCKS_URI} from 'outline-shadowsocksconfig/shadowsocks_config';
 
 import * as errors from '../model/errors';
 import * as events from '../model/events';
 import {Server} from '../model/server';
+
 
 import {Clipboard} from './clipboard';
 import {EnvironmentVariables} from './environment';
@@ -52,9 +55,21 @@ export function unwrapInvite(s: string): string {
   return s;
 }
 
+// from stripe plugin, used in callback
+export interface TokenResponse {
+  id: string;
+  type: string;
+  created: Date;
+}
+
+export interface Error {
+  message: string;
+}
+
 export class App {
   private serverListEl: polymer.Base;
   private feedbackViewEl: polymer.Base;
+  private loginViewEl: polymer.Base;
   private localize: (...args: string[]) => string;
   private ignoredAccessKeys: {[accessKey: string]: boolean;} = {};
 
@@ -65,8 +80,10 @@ export class App {
       private errorReporter: OutlineErrorReporter, private settings: Settings,
       private environmentVars: EnvironmentVariables, private updater: Updater,
       private quitApplication: () => void, document = window.document) {
-    this.serverListEl = rootEl.$.serversView.$.serverList;
+    // this.serverListEl = rootEl.$.serversView.$.serverList;
     this.feedbackViewEl = rootEl.$.feedbackView;
+    this.loginViewEl = rootEl.$.loginView;
+    this.serverListEl = rootEl.$.loginView.$.serverList;
 
     this.syncServersToUI();
     this.syncConnectivityStateToServerCards();
@@ -99,6 +116,8 @@ export class App {
     this.rootEl.addEventListener('ForgetPressed', this.forgetServer.bind(this));
     this.rootEl.addEventListener('RenameRequested', this.renameServer.bind(this));
     this.rootEl.addEventListener('QuitPressed', this.quitApplication.bind(this));
+    this.rootEl.addEventListener('PayOrder', this.payOrder.bind(this));
+    this.rootEl.addEventListener('AddServerDirectly', this.addServerDirectly.bind(this));
     this.rootEl.addEventListener(
         'AutoConnectDialogDismissed', this.autoConnectDialogDismissed.bind(this));
     this.rootEl.addEventListener(
@@ -118,7 +137,8 @@ export class App {
     this.eventQueue.startPublishing();
 
     if (!this.arePrivacyTermsAcked()) {
-      this.displayPrivacyView();
+      // this.displayPrivacyView();
+      console.log('Privacy accepted silently for now');
     }
     this.displayZeroStateUi();
     this.pullClipboardText();
@@ -218,9 +238,10 @@ export class App {
   }
 
   private displayZeroStateUi() {
-    if (this.rootEl.$.serversView.shouldShowZeroState) {
-      this.rootEl.$.addServerView.openAddServerSheet();
-    }
+    // if (this.rootEl.$.serversView.shouldShowZeroState) {
+    //   this.rootEl.$.addServerView.openAddServerSheet();
+    // }
+    console.log('Zero state');
   }
 
   private arePrivacyTermsAcked() {
@@ -293,11 +314,11 @@ export class App {
   private confirmAddServer(accessKey: string, fromClipboard = false) {
     const addServerView = this.rootEl.$.addServerView;
     accessKey = unwrapInvite(accessKey);
-    if (fromClipboard && accessKey in this.ignoredAccessKeys) {
-      return console.debug('Ignoring access key');
-    } else if (fromClipboard && addServerView.isAddingServer()) {
-      return console.debug('Already adding a server');
-    }
+    // if (fromClipboard && accessKey in this.ignoredAccessKeys) {
+    //   return console.debug('Ignoring access key');
+    // } else if (fromClipboard && addServerView.isAddingServer()) {
+    //   return console.debug('Already adding a server');
+    // }
     // Expect SHADOWSOCKS_URI.parse to throw on invalid access key; propagate any exception.
     let shadowsocksConfig = null;
     try {
@@ -309,31 +330,99 @@ export class App {
     if (shadowsocksConfig.host.isIPv6) {
       throw new errors.ServerIncompatible('Only IPv4 addresses are currently supported');
     }
-    const name = shadowsocksConfig.extra.outline ?
-        this.localize('server-default-name-outline') :
-        shadowsocksConfig.tag.data ? shadowsocksConfig.tag.data :
-                                     this.localize('server-default-name');
-    const serverConfig = {
-      host: shadowsocksConfig.host.data,
-      port: shadowsocksConfig.port.data,
-      method: shadowsocksConfig.method.data,
-      password: shadowsocksConfig.password.data,
-      name,
-    };
-    if (!this.serverRepo.containsServer(serverConfig)) {
-      // Only prompt the user to add new servers.
-      try {
-        addServerView.openAddServerConfirmationSheet(accessKey, serverConfig);
-      } catch (err) {
-        console.error('Failed to open add sever confirmation sheet:', err.message);
-        if (!fromClipboard) this.showLocalizedError();
+    // instead use access key from clipboard to login
+    this.loginViewEl.loginFromAccessKey(accessKey);
+    // const name = shadowsocksConfig.extra.outline ?
+    //     this.localize('server-default-name-outline') :
+    //     shadowsocksConfig.tag.data ? shadowsocksConfig.tag.data :
+    //                                  this.localize('server-default-name');
+    // const serverConfig = {
+    //   host: shadowsocksConfig.host.data,
+    //   port: shadowsocksConfig.port.data,
+    //   method: shadowsocksConfig.method.data,
+    //   password: shadowsocksConfig.password.data,
+    //   name,
+    // };
+    // if (!this.serverRepo.containsServer(serverConfig)) {
+    //   // Only prompt the user to add new servers.
+    //   try {
+    //     addServerView.openAddServerConfirmationSheet(accessKey, serverConfig);
+    //   } catch (err) {
+    //     console.error('Failed to open add sever confirmation sheet:', err.message);
+    //     if (!fromClipboard) this.showLocalizedError();
+    //   }
+    // } else if (!fromClipboard) {
+    //   // Display error message if this is not a clipboard add.
+    //   addServerView.close();
+    //   this.showLocalizedError(new errors.ServerAlreadyAdded(
+    //       this.serverRepo.createServer('', serverConfig, this.eventQueue)));
+    // }
+  }
+
+  private forgetAllServers() {
+    const servers = this.serverRepo.getAll();
+    console.debug('Servers before: '+ servers);
+    const forgotArray = servers.map(server => {
+      if (server.checkRunning()) {
+        return false;
+      } else {
+        this.serverRepo.forget(server.id);
+        return true;
       }
-    } else if (!fromClipboard) {
-      // Display error message if this is not a clipboard add.
-      addServerView.close();
-      this.showLocalizedError(new errors.ServerAlreadyAdded(
-          this.serverRepo.createServer('', serverConfig, this.eventQueue)));
+    });
+    console.debug('Servers after: '+ this.serverRepo.getAll());
+    return forgotArray;
+  }
+
+  private addServerDirectly(event: CustomEvent) {
+    console.log('Servers before add: ' + this.serverRepo.getAll());
+    const forgotArray = this.forgetAllServers();
+    const serverNotRunning = !(forgotArray.includes(false));
+
+    if (serverNotRunning) {
+      let accessKey = event.detail.accessKey;
+      accessKey = unwrapInvite(accessKey);
+      let shadowsocksConfig = null;
+      shadowsocksConfig = SHADOWSOCKS_URI.parse(accessKey);
+      const name = shadowsocksConfig.extra.outline ?
+          this.localize('server-default-name-outline') :
+          shadowsocksConfig.tag.data ? shadowsocksConfig.tag.data :
+              this.localize('server-default-name');
+      const serverConfig = {
+          host: shadowsocksConfig.host.data,
+          port: shadowsocksConfig.port.data,
+          method: shadowsocksConfig.method.data,
+          password: shadowsocksConfig.password.data,
+          name,
+      };
+      this.serverRepo.add(serverConfig);
     }
+
+    console.log('Servers after add: ' + this.serverRepo.getAll());
+  }
+
+  private payOrder(event: CustomEvent) {
+    console.warn('Payment event received');
+    const amount = event.detail.amount;
+    const currency = 'gbp';
+    const returnUrl = 'https://openinternetchina.com/charge/';
+    const name = event.detail.name;
+    const email = event.detail.email;
+    cordova.plugins.stripe.setPublishableKey('pk_test_Tss00n1II2Zhj4Y45IITfcVj00l0bsSuwc');
+    cordova.plugins.stripe.createSource('AliPay', {'amount': amount, 'currency': currency, 'returnUrl': returnUrl, 'name': name, 'email': email}, this.paySuccess, this.payFail);
+  }
+
+  private paySuccess(token: TokenResponse) {
+    console.log('Payment success, will update access key');
+    this.loginViewEl.paymentComplete();
+    console.log('Updated access key');
+  }
+
+  private payFail(error: Error) {
+    console.warn('Payment fail');
+    console.warn(error);
+    this.loginViewEl.paymentComplete();
+    console.log('Updated access key');
   }
 
   private forgetServer(event: CustomEvent) {
@@ -434,18 +523,12 @@ export class App {
     }
     const {feedback, category, email} = formData;
     this.rootEl.$.feedbackView.submitting = true;
-    this.errorReporter.report(feedback, category, email)
-        .then(
-            () => {
-              this.rootEl.$.feedbackView.submitting = false;
-              this.rootEl.$.feedbackView.resetForm();
-              this.changeToDefaultPage();
-              this.rootEl.showToast(this.rootEl.localize('feedback-thanks'));
-            },
-            (err: {}) => {
-              this.rootEl.$.feedbackView.submitting = false;
-              this.showLocalizedError(new errors.FeedbackSubmissionError());
-            });
+    this.loginViewEl.feedback(feedback, category, email);
+
+    this.rootEl.$.feedbackView.submitting = false;
+    this.rootEl.$.feedbackView.resetForm();
+    this.changeToDefaultPage();
+    this.rootEl.showToast(this.rootEl.localize('feedback-thanks'));
   }
 
   // EventQueue event handlers:
@@ -493,6 +576,8 @@ export class App {
     for (const server of this.serverRepo.getAll()) {
       this.syncServerConnectivityState(server);
     }
+    // Update user details in case anything changed on resume
+    this.loginViewEl.arrangeConnect();
   }
 
   private syncServerConnectivityState(server: Server) {
@@ -506,9 +591,13 @@ export class App {
           server.checkReachable().then((isReachable) => {
             if (isReachable) {
               card.state = 'CONNECTED';
+              // Log reachable server to OIC
+              this.loginViewEl.serverReachable(true);
             } else {
               console.log(`Server ${server.id} reconnecting`);
               card.state = 'RECONNECTING';
+              //  Log unreachable server to OIC
+              this.loginViewEl.serverReachable(false);
             }
           });
         })

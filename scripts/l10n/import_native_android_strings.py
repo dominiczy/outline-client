@@ -31,7 +31,7 @@ NATIVE_KEYS = [
 ]
 XML_TEMPLATE = '''<?xml version='1.0' encoding='utf-8'?>
 <resources>
-\t<string name="app_name">Outline</string>
+\t<string name="app_name">OpenInternetChina</string>
 \t<string name="launcher_name">@string/app_name</string>
 \t<string name="activity_name">@string/launcher_name</string>{0}
 </resources>

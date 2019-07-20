@@ -1,0 +1,426 @@
+<!--
+  Copyright 2018 The Outline Authors
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../bower_components/paper-radio-group/paper-radio-group.html">
+<link rel="import" href="../bower_components/paper-radio-button/paper-radio-button.html">
+<link rel="import" href="server-list.html">
+<link rel="import" href="server-connection-viz.html">
+<link rel="import" href="user-comms-dialog.html">
+
+<dom-module id="login-view">
+  <template>
+    <style>
+      :host {
+        margin: 0!important;
+        width: 100%;
+        height: 100%;
+        /* Use vh, as % does not work in iOS. |header-height|+|server-margin| = 64px.
+         * Subtract |header-height| to fix iOS padding, and |server-margin| to fix scrolling in Android.
+         */
+        height: -webkit-calc(100vh - 64px);
+        font-size: 14px;
+        line-height: 20px;
+      }
+      :host a {
+        color: var(--medium-green);
+        text-decoration: none;
+      }
+      /* Do not remove, this allows the hidden attribute to work with flex displays. */
+      [hidden] {
+        display: none !important;
+      }
+      .alert-error {
+        background: #ffcdd2;
+        border: 1px solid #f44336;
+        border-radius: 3px;
+        color: #333;
+        font-size: 14px;
+        padding: 10px;
+      }
+      .center {
+        margin: auto;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        width: 300px;
+      }
+      .center-wide {
+        margin: auto;
+        width: 350px;
+      }
+      .server-list-container {
+        background-color: #EFEFEF;
+        width: 100%;
+        height: 50%;
+      }
+      paper-button {
+        background: var(--light-green);
+        color: white;
+        width: 200px;
+        display: block;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-left: auto;
+        margin-right: auto;
+        text-align: center;
+        text-transform: none;
+      }
+      input {
+        position: relative; /* to make a stacking context */
+        outline: none;
+        box-shadow: none;
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        max-width: 100%;
+        background: transparent;
+        border: none;
+        color: var(--paper-input-container-input-color, var(--primary-text-color));
+        -webkit-appearance: none;
+        text-align: inherit;
+        vertical-align: bottom;
+        /* Firefox sets a min-width on the input, which can cause layout issues */
+        min-width: 0;
+        @apply --paper-font-subhead;
+        @apply --paper-input-container-input;
+      }
+
+    </style>
+
+    <iron-ajax
+      id="registerLoginAjax"
+      method="post"
+      content-type="application/json"
+      headers="[[_acceptHeader()]]"
+      handle-as="text"
+      on-response="handleUserResponse"
+      on-error="handleUserError">
+    </iron-ajax>
+
+    <iron-ajax
+      id="registerLoginAccessKeyAjax"
+      method="post"
+      content-type="application/json"
+      headers="[[_acceptHeader()]]"
+      handle-as="text"
+      on-response="handleUserResponse"
+      on-error="handleUserError">
+    </iron-ajax>
+
+    <iron-ajax
+      id="getDataAjax"
+      method="get"
+      content-type="application/json"
+      headers="[[_authorizationHeader(storedUser)]]"
+      handle-as="text"
+      on-response="handleDataResponse"
+      on-error="handleUserError">
+    </iron-ajax>
+
+    <iron-ajax
+      id="serverReachableAjax"
+      method="post"
+      content-type="application/json"
+      headers="[[_authorizationHeader(storedUser)]]"
+      handle-as="text">
+    </iron-ajax>
+
+    <iron-ajax
+      id="feedbackAjax"
+      method="post"
+      content-type="application/json"
+      headers="[[_authorizationHeader(storedUser)]]"
+      handle-as="text">
+    </iron-ajax>
+
+    <div class="card">
+
+      <div id="notbuying" hidden$="[[isBuying]]">
+
+        <template is="dom-if" if="[[error]]">
+          <p class="alert-error"><strong>Error:</strong> [[error]]</p>
+        </template>
+
+        <div id="unauthenticated" class="center-wide" hidden$="[[loggedIn]]">
+          <h1>[[localize('login-title')]]</h1>
+          <p>[[localize('login-hint-start')]]<a href="https://openinternetchina.com">openinternetchina.com</a>[[localize('login-hint-end')]]</p>
+          <paper-input-container>
+            <label>[[localize('email-field')]]</label>
+            <iron-input slot="input" bind-value="{{formUser}}">
+              <input class="input-style" id="username" type="text" value="{{formUser}}" placeholder="[[localize('email-field')]]">
+            </iron-input>
+          </paper-input-container>
+          <paper-input-container>
+            <label>[[localize('password-field')]]</label>
+            <iron-input slot="input" bind-value="{{formPassword}}">
+              <input id="password" type="password" value="{{formPassword}}" placeholder="[[localize('password-field')]]">
+            </iron-input>
+          </paper-input-container>
+          <div class="wrapper-btns">
+            <paper-button raised class="primary" on-tap="postLogin">[[localize('login-title')]]</paper-button>
+            <paper-button raised class="primary" on-tap="postSignup">[[localize('signup-title')]]</paper-button>
+          </div>
+        </div>
+
+        <div id="authenticated" hidden$="[[loggedOut]]">
+          <div id="notexpired" class="server-list-container" hidden$="[[hasNoActiveOrder]]">
+            <paper-button class="center" on-tap="toggleBuyPage">[[localize('buy-button-text-alt')]]</paper-button>
+            <server-list id="serverList" servers="{{servers}}" localize="[[localize]]" root-path="[[rootPath]]"></server-list>
+          </div>
+
+          <div id="expired" class="center-wide" hidden$="[[hasActiveOrder]]">
+            <h1>[[localize('expired-title')]]</h1>
+            <p>[[localize('expired-text')]]</p>
+            <paper-button class="center" on-tap="toggleBuyPage">[[localize('buy-button-text')]]</paper-button>
+          </div>
+
+        </div>
+      </div>
+
+
+      <template is="dom-if" if="[[isBuying]]">
+        <div class="center-wide">
+          <h1>[[localize('buy-title')]]</h1>
+          <paper-radio-group selected="{{chosenProduct}}">
+            <template is="dom-repeat" items="[[productsLocalized(userData, localize)]]">
+              <paper-radio-button name="[[item.name]]">[[item.display_name]]: [[localize('pound-sign')]] [[item.final_display_price]]</paper-radio-button><br>
+            </template>
+          </paper-radio-group>
+
+          <paper-button id="payButton" on-tap="_payOrder">[[localize('alipay-button-text')]]</paper-button>
+
+          <paper-button on-tap="toggleBuyPage">[[localize('cancel-button-text')]]</paper-button>
+        </div>
+      </template>
+
+    </div>
+  </template>
+
+  <script>
+    'use strict';
+    Polymer({
+      is: 'login-view',
+      properties: {
+        localize: Function,
+        rootPath: String,
+        servers: Array,
+        formUser: '',
+        formPassword: '',
+        storedUser: {
+          loggedin: false,
+        },
+        loggedIn: false,
+        loggedOut: true,
+        accessKeyClipBoard: String,
+        error: String,
+        userData: {
+          has_active_order: false
+        },
+        hasActiveOrder: false,
+        hasNoActiveOrder: true,
+        server_id: String,
+        isBuying: false,
+        chosenProduct: String,
+      },
+
+      ready: function() {
+        this.loggedIn = false;
+        this.loggedOut = true;
+        this.chosenProduct = 'year';
+        this.hasActiveOrder = false;
+        this.hasNoActiveOrder = true;
+        this.arrangeConnect();
+      },
+
+      toggleBuyPage() {
+        this.isBuying = !this.isBuying;
+      },
+
+      _payOrder: function() {
+        let product_name = this.chosenProduct;
+        let product = this.userData.products.find(obj => {
+          return obj.name === product_name
+        });
+        let name = product_name;
+        let amount = product.pay_price;
+        let email = this.userData.user_email;
+
+        let eventId = 'PayOrder';
+        let eventDct = {amount: amount, name: name, email: email};
+        console.log('paying ');
+        console.log(eventDct);
+        this.fire(eventId, eventDct);
+      },
+
+      addServer() {
+        const accessKey = this.userData.access_key;
+        this.fire("AddServerDirectly", {'accessKey': accessKey});
+      },
+
+      _acceptHeader() {
+        return {
+          "Accept": "application/json"
+        };
+      },
+
+      _authorizationHeader(storedUser) {
+        let outputHeaders = this._acceptHeader();
+        let token = storedUser.token;
+        if (token) {
+          outputHeaders['Authorization'] = "Token " + token;
+        }
+        return outputHeaders;
+      },
+
+      api_server_address () {
+        return 'https://openinternetchina.com/';
+      },
+
+      arrangeConnect() {
+        if (this.getToken()) {
+          this.setStoredUser();
+          this.getUserData();
+        }
+      },
+
+      getToken() {
+        return window.localStorage.getItem('token_oic');
+      },
+
+      setToken(token) {
+        window.localStorage.setItem('token_oic', token);
+      },
+
+      setStoredUser() {
+        this.storedUser = {
+          token: this.getToken(),
+          loggedin: true
+        };
+        this.loggedIn = true;
+        this.loggedOut = false;
+      },
+
+      loginFromAccessKey(accessKey) {
+        if (!this.loggedIn) {
+          this.setAccessKeyClipBoard(accessKey);
+          this.postLoginAccessKey();
+        }
+      },
+
+      setAccessKeyClipBoard(accessKey) {
+        this.accessKeyClipBoard = accessKey;
+      },
+
+      getUserData() {
+        if (this.loggedIn) {
+          this.$.getDataAjax.url = this.api_server_address() + 'api_user_data/';
+          this.$.getDataAjax.generateRequest();
+        }
+      },
+
+      setUserData(data) {
+        this.userData = data;
+        this.hasActiveOrder = this.userData.has_active_order;
+        this.hasNoActiveOrder = !this.userData.has_active_order;
+      },
+
+      handleDataResponse(event) {
+        this.setUserData(JSON.parse(JSON.parse(event.detail.response)));
+        this.error = '';
+        console.log(this.userData);
+        if (this.hasActiveOrder) {
+          this.addServer();
+        }
+      },
+
+      _setReqBody() {
+        this.$.registerLoginAjax.body = {'email': this.formUser, 'password': this.formPassword};
+      },
+
+      postLogin() {
+        this.$.registerLoginAjax.url = this.api_server_address() + 'api_authenticate_with_email/';
+        this._setReqBody();
+        this.$.registerLoginAjax.generateRequest();
+      },
+
+      postSignup() {
+        this.$.registerLoginAjax.url = this.api_server_address() + 'api_signup/';
+        this._setReqBody();
+        this.$.registerLoginAjax.generateRequest();
+      },
+
+      postLoginAccessKey() {
+        this.$.registerLoginAccessKeyAjax.url = this.api_server_address() + 'api_authenticate_with_access_key/';
+        this.$.registerLoginAccessKeyAjax.body = {'accessKey': this.accessKeyClipBoard};
+        this.$.registerLoginAccessKeyAjax.generateRequest();
+      },
+
+      handleUserResponse(event) {
+        let response = JSON.parse(event.detail.response);
+
+        if (response.token) {
+          this.setToken(response.token);
+          this.arrangeConnect();
+          this.error = '';
+        }
+      },
+
+      handleUserError(event) {
+        this.error = event.detail.request.xhr.response;
+      },
+
+      paymentComplete() {
+        this.getUserData();
+        this.isBuying = false;
+      },
+
+      serverReachable(reachable) {
+        this.$.serverReachableAjax.url = this.api_server_address() + 'api_server_reachable/';
+        this.$.serverReachableAjax.body = {'reachable': reachable};
+        this.$.serverReachableAjax.generateRequest();
+      },
+
+      feedback(feedback, category, email) {
+        this.$.feedbackAjax.url = this.api_server_address() + 'api_feedback/';
+        this.$.feedbackAjax.body = {'subject': category, 'from_email': email, 'message': feedback};
+        this.$.feedbackAjax.generateRequest();
+      },
+
+      productsLocalized(userData, localize) {
+        let products = userData.products;
+
+        let result = products.map(function(product) {
+          let prod = Object.assign({}, product);
+          prod.display_name = localize(product.name);
+
+          if (userData.has_small_discount) {
+            prod.final_display_price = product.display_price_small_discount + localize('discount-price');
+          } else if (userData.has_large_discount) {
+            prod.final_display_price = product.display_price_large_discount + localize('discount-price');
+          } else {
+            prod.final_display_price = product.display_price;
+          }
+          return prod;
+        });
+
+        return result;
+      },
+    });
+  </script>
+</dom-module>

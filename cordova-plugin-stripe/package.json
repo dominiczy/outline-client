@@ -1,0 +1,50 @@
+{
+  "name": "cordova-plugin-stripe",
+  "version": "1.5.3",
+  "description": "Cordova plugin that lets you use Stripe's Native SDKs for Android and iOS",
+  "files": [
+    "src",
+    "www",
+    "plugin.xml",
+    "typings/CordovaStripe.d.ts"
+  ],
+  "scripts": {
+    "docs": "echo \"Will implement new way to auto-doc\"",
+    "build": "tsc"
+  },
+  "cordova": {
+    "id": "cordova-plugin-stripe",
+    "platforms": [
+      "android",
+      "ios",
+      "browser"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ihadeed/cordova-plugin-stripe.git"
+  },
+  "keywords": [
+    "ecosystem:cordova",
+    "cordova-android",
+    "cordova-ios",
+    "cordova-browser",
+    "stripe",
+    "phonegap",
+    "cordova-plugin"
+  ],
+  "author": "Ibby Hadeed <ibby@zyra.ca>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zyra/cordova-plugin-stripe/issues"
+  },
+  "homepage": "https://github.com/zyra/cordova-plugin-stripe#readme",
+  "main": "www/CordovaStripe.js",
+  "typings": "www/CordovaStripe.d.ts",
+  "dependencies": {
+    "@types/cordova": "^0.0.34"
+  },
+  "devDependencies": {
+    "typescript": "^2.7.1"
+  }
+}
