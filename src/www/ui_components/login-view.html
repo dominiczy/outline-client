@@ -250,6 +250,10 @@
 
       toggleBuyPage() {
         this.isBuying = !this.isBuying;
+        // reload when going back
+        if (!this.isBuying) {
+          location.reload();
+        }
       },
 
       _payOrder: function() {
@@ -329,6 +333,14 @@
 
       getUserData() {
         if (this.loggedIn) {
+          // first, get from localStorage, then update
+          let hasActiveOrder = window.localStorage.getItem('hasActiveOrder');
+          console.log('Local hasActiveOrder');
+          console.log(hasActiveOrder);
+          if (hasActiveOrder) {
+            this.setActiveOrder(hasActiveOrder);
+          }
+
           this.$.getDataAjax.url = this.api_server_address() + 'api_user_data/';
           this.$.getDataAjax.generateRequest();
         }
@@ -336,8 +348,13 @@
 
       setUserData(data) {
         this.userData = data;
-        this.hasActiveOrder = this.userData.has_active_order;
-        this.hasNoActiveOrder = !this.userData.has_active_order;
+        this.setActiveOrder(this.userData.has_active_order);
+      },
+
+      setActiveOrder(hasActiveOrder) {
+        this.hasActiveOrder = hasActiveOrder;
+        this.hasNoActiveOrder = !hasActiveOrder;
+        window.localStorage.setItem('hasActiveOrder', this.hasActiveOrder);
       },
 
       handleDataResponse(event) {
@@ -383,11 +400,6 @@
 
       handleUserError(event) {
         this.error = event.detail.request.xhr.response;
-      },
-
-      paymentComplete() {
-        this.getUserData();
-        this.isBuying = false;
       },
 
       serverReachable(reachable) {

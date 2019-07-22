@@ -414,14 +414,15 @@ export class App {
 
   private paySuccess(token: TokenResponse) {
     console.log('Payment success, will update access key');
-    this.loginViewEl.paymentComplete();
+    // 'this' is null, just reload instead
+    location.reload();
     console.log('Updated access key');
   }
 
   private payFail(error: Error) {
     console.warn('Payment fail');
     console.warn(error);
-    this.loginViewEl.paymentComplete();
+    location.reload();
     console.log('Updated access key');
   }
 
