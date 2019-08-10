@@ -405,7 +405,7 @@ export class App {
     console.warn('Payment event received');
     const amount = event.detail.amount;
     const currency = 'gbp';
-    const returnUrl = 'https://openinternetvpn.com/charge/';
+    const returnUrl = 'https://openinternetchina.com/charge/';
     const name = event.detail.name;
     const email = event.detail.email;
     cordova.plugins.stripe.setPublishableKey('pk_live_NkeUgHrAQQTovEgNI22z26qR00fbAacxAp');
