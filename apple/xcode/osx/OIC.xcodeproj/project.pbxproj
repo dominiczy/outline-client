@@ -27,7 +27,7 @@
 		EAD11960A27C45AFA5E46584 /* Outline-Bridging-Header.h in Resources */ = {isa = PBXBuildFile; fileRef = A508014170A1492DB0D800B3 /* Outline-Bridging-Header.h */; };
 		FC0799E92037532A00A1C822 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0799E82037532A00A1C822 /* AppDelegate.swift */; };
 		FC0799F02037532A00A1C822 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = FC0799EE2037532A00A1C822 /* Main.storyboard */; };
-		FC0799F72037543F00A1C822 /* OutlineLauncher.app in Copy OutlineLauncher */ = {isa = PBXBuildFile; fileRef = FC0799E62037532900A1C822 /* OutlineLauncher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FC0799F72037543F00A1C822 /* OICLauncher.app in Copy OICLauncher */ = {isa = PBXBuildFile; fileRef = FC0799E62037532900A1C822 /* OICLauncher.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		FC0799F92037545D00A1C822 /* ServiceManagement.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC0799F82037545D00A1C822 /* ServiceManagement.framework */; };
 		FC0FFD701FCDBE4E00EB0129 /* Shadowsocks_macOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCAFD3131FBA52690057EE7F /* Shadowsocks_macOS.framework */; };
 		FC1F250F2049B0DB0012D758 /* OutlineConnectionStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC28C2B520223164005FD743 /* OutlineConnectionStore.swift */; };
@@ -104,15 +104,15 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FC0799F62037541600A1C822 /* Copy OutlineLauncher */ = {
+		FC0799F62037541600A1C822 /* Copy OICLauncher */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 8;
 			dstPath = Contents/Library/LoginItems;
 			dstSubfolderSpec = 1;
 			files = (
-				FC0799F72037543F00A1C822 /* OutlineLauncher.app in Copy OutlineLauncher */,
+				FC0799F72037543F00A1C822 /* OICLauncher.app in Copy OICLauncher */,
 			);
-			name = "Copy OutlineLauncher";
+			name = "Copy OICLauncher";
 			runOnlyForDeploymentPostprocessing = 1;
 		};
 		FC1F25172049B2E40012D758 /* Embed Frameworks */ = {
@@ -143,21 +143,21 @@
 /* Begin PBXFileReference section */
 		01C0FE24369C408597E6E257 /* OutlineConnectivity.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = OutlineConnectivity.swift; path = "cordova-plugin-outline/OutlineConnectivity.swift"; sourceTree = "<group>"; };
 		19209C3AABCC45AB8CFDD974 /* CDVClipboard.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVClipboard.h; path = cordova-plugin-clipboard/CDVClipboard.h; sourceTree = "<group>"; };
-		3679D25B96374CD5BE52C04F /* PacketProcessor_macOS.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = PacketProcessor_macOS.framework; path = "Outline/Plugins/cordova-plugin-outline/PacketProcessor_macOS.framework"; sourceTree = "<group>"; };
+		3679D25B96374CD5BE52C04F /* PacketProcessor_macOS.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = PacketProcessor_macOS.framework; path = "OIC/Plugins/cordova-plugin-outline/PacketProcessor_macOS.framework"; sourceTree = "<group>"; };
 		469466FF1BDB44C081741BF5 /* CDVClipboard.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVClipboard.m; path = cordova-plugin-clipboard/CDVClipboard.m; sourceTree = "<group>"; };
 		512326387AA5498389C6B4BA /* CDVDevice.m */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.objc; name = CDVDevice.m; path = "cordova-plugin-device/CDVDevice.m"; sourceTree = "<group>"; };
-		65F10DB2408748869386705A /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = "Outline/Plugins/cordova-plugin-outline/CocoaAsyncSocket.framework"; sourceTree = "<group>"; };
+		65F10DB2408748869386705A /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = "OIC/Plugins/cordova-plugin-outline/CocoaAsyncSocket.framework"; sourceTree = "<group>"; };
 		707060AE18FFC05700755D46 /* MainViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainViewController.xib; sourceTree = "<group>"; };
-		707060B018FFC0D900755D46 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = Outline/config.xml; sourceTree = "<group>"; };
-		70BD682318FFB02D00A1EFCF /* Outline.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Outline.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		707060B018FFC0D900755D46 /* config.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = config.xml; path = OIC/config.xml; sourceTree = "<group>"; };
+		70BD682318FFB02D00A1EFCF /* OIC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OIC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		70BD682618FFB02D00A1EFCF /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		70BD682918FFB02D00A1EFCF /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		70BD682A18FFB02D00A1EFCF /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		70BD682B18FFB02D00A1EFCF /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		70BD682E18FFB02D00A1EFCF /* Outline-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Outline-Info.plist"; sourceTree = "<group>"; };
+		70BD682E18FFB02D00A1EFCF /* OIC-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "OIC-Info.plist"; sourceTree = "<group>"; };
 		70BD683018FFB02D00A1EFCF /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		70BD683218FFB02D00A1EFCF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		70BD683418FFB02D00A1EFCF /* Outline-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Outline-Prefix.pch"; sourceTree = "<group>"; };
+		70BD683418FFB02D00A1EFCF /* OIC-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "OIC-Prefix.pch"; sourceTree = "<group>"; };
 		70BD683E18FFB02D00A1EFCF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		70BD685A18FFB04300A1EFCF /* CordovaLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CordovaLib.xcodeproj; path = CordovaLib/CordovaLib.xcodeproj; sourceTree = "<group>"; };
 		70BD686418FFB06500A1EFCF /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
@@ -171,33 +171,33 @@
 		AA09EA80E0C54DFFB24A1810 /* OutlinePlugin.swift */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.swift; name = OutlinePlugin.swift; path = "cordova-plugin-outline/OutlinePlugin.swift"; sourceTree = "<group>"; };
 		D83B939D01CF4540A9A3DF86 /* vpn */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; path = vpn; sourceTree = "<group>"; };
 		EC9383FD5D094D2E9A2EC35D /* CDVDevice.h */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 4; includeInIndex = 0; lastKnownFileType = sourcecode.c.h; name = CDVDevice.h; path = "cordova-plugin-device/CDVDevice.h"; sourceTree = "<group>"; };
-		FC0799E62037532900A1C822 /* OutlineLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OutlineLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC0799E62037532900A1C822 /* OICLauncher.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OICLauncher.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC0799E82037532A00A1C822 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		FC0799EF2037532A00A1C822 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		FC0799F12037532A00A1C822 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FC0799F22037532A00A1C822 /* OutlineLauncher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OutlineLauncher.entitlements; sourceTree = "<group>"; };
+		FC0799F22037532A00A1C822 /* OICLauncher.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OICLauncher.entitlements; sourceTree = "<group>"; };
 		FC0799F82037545D00A1C822 /* ServiceManagement.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ServiceManagement.framework; path = System/Library/Frameworks/ServiceManagement.framework; sourceTree = SDKROOT; };
-		FC1FCADA216D289F00F078A5 /* Subnet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Subnet.swift; path = Outline/Resources/vpn/Subnet.swift; sourceTree = SOURCE_ROOT; };
+		FC1FCADA216D289F00F078A5 /* Subnet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Subnet.swift; path = OIC/Resources/vpn/Subnet.swift; sourceTree = SOURCE_ROOT; };
 		FC28C280201A93BF005FD743 /* OutlineVpn.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OutlineVpn.swift; path = "cordova-plugin-outline/OutlineVpn.swift"; sourceTree = "<group>"; };
 		FC28C282201A93D0005FD743 /* OutlineConnection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OutlineConnection.swift; path = "cordova-plugin-outline/OutlineConnection.swift"; sourceTree = "<group>"; };
-		FC28C2B520223164005FD743 /* OutlineConnectionStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OutlineConnectionStore.swift; path = Outline/Resources/vpn/OutlineConnectionStore.swift; sourceTree = SOURCE_ROOT; };
-		FC55AB411F4F960A0056F12C /* VpnExtension-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "VpnExtension-Info.plist"; path = "Outline/VpnExtension-Info.plist"; sourceTree = SOURCE_ROOT; };
-		FC5FF9121F3E1D1B0032A745 /* Outline.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Outline.entitlements; sourceTree = "<group>"; };
+		FC28C2B520223164005FD743 /* OutlineConnectionStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OutlineConnectionStore.swift; path = OIC/Resources/vpn/OutlineConnectionStore.swift; sourceTree = SOURCE_ROOT; };
+		FC55AB411F4F960A0056F12C /* VpnExtension-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "VpnExtension-Info.plist"; path = "OIC/VpnExtension-Info.plist"; sourceTree = SOURCE_ROOT; };
+		FC5FF9121F3E1D1B0032A745 /* OIC.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OIC.entitlements; sourceTree = "<group>"; };
 		FC5FF92B1F3E1E5F0032A745 /* VpnExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = VpnExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC5FF9461F3E1E8B0032A745 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
-		FC5FF9491F3E1EF00032A745 /* PacketTunnelProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PacketTunnelProvider.h; path = Outline/Resources/vpn/PacketTunnelProvider.h; sourceTree = SOURCE_ROOT; };
-		FC5FF94A1F3E1EF00032A745 /* PacketTunnelProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PacketTunnelProvider.m; path = Outline/Resources/vpn/PacketTunnelProvider.m; sourceTree = SOURCE_ROOT; };
-		FC5FF94B1F3E1EF00032A745 /* Shadowsocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shadowsocks.h; path = Outline/Resources/vpn/Shadowsocks.h; sourceTree = SOURCE_ROOT; };
-		FC5FF94C1F3E1EF00032A745 /* Shadowsocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Shadowsocks.m; path = Outline/Resources/vpn/Shadowsocks.m; sourceTree = SOURCE_ROOT; };
+		FC5FF9491F3E1EF00032A745 /* PacketTunnelProvider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PacketTunnelProvider.h; path = OIC/Resources/vpn/PacketTunnelProvider.h; sourceTree = SOURCE_ROOT; };
+		FC5FF94A1F3E1EF00032A745 /* PacketTunnelProvider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PacketTunnelProvider.m; path = OIC/Resources/vpn/PacketTunnelProvider.m; sourceTree = SOURCE_ROOT; };
+		FC5FF94B1F3E1EF00032A745 /* Shadowsocks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shadowsocks.h; path = OIC/Resources/vpn/Shadowsocks.h; sourceTree = SOURCE_ROOT; };
+		FC5FF94C1F3E1EF00032A745 /* Shadowsocks.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Shadowsocks.m; path = OIC/Resources/vpn/Shadowsocks.m; sourceTree = SOURCE_ROOT; };
 		FC6E7F8D204DC1BE003CB365 /* CDVMacOsUrlHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CDVMacOsUrlHandler.swift; sourceTree = "<group>"; };
 		FC7D56041F86969E00ABD5CA /* EventMonitor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EventMonitor.swift; sourceTree = "<group>"; };
-		FC8C30D61FA78D1A004262BE /* Sentry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sentry.framework; path = "Outline/Plugins/cordova-plugin-outline/Sentry.framework"; sourceTree = "<group>"; };
-		FC8C30E41FA7C0E9004262BE /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = "Outline/Plugins/cordova-plugin-outline/CocoaLumberjack.framework"; sourceTree = "<group>"; };
-		FC8C30E51FA7C0E9004262BE /* CocoaLumberjackSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjackSwift.framework; path = "Outline/Plugins/cordova-plugin-outline/CocoaLumberjackSwift.framework"; sourceTree = "<group>"; };
+		FC8C30D61FA78D1A004262BE /* Sentry.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sentry.framework; path = "OIC/Plugins/cordova-plugin-outline/Sentry.framework"; sourceTree = "<group>"; };
+		FC8C30E41FA7C0E9004262BE /* CocoaLumberjack.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjack.framework; path = "OIC/Plugins/cordova-plugin-outline/CocoaLumberjack.framework"; sourceTree = "<group>"; };
+		FC8C30E51FA7C0E9004262BE /* CocoaLumberjackSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaLumberjackSwift.framework; path = "OIC/Plugins/cordova-plugin-outline/CocoaLumberjackSwift.framework"; sourceTree = "<group>"; };
 		FC8C30FB1FA7DDCB004262BE /* OutlineSentryLogger.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = OutlineSentryLogger.swift; path = "cordova-plugin-outline/OutlineSentryLogger.swift"; sourceTree = "<group>"; };
 		FCABE26321AF5CF1009B7C93 /* ShadowsocksConnectivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShadowsocksConnectivity.m; sourceTree = "<group>"; };
 		FCABE26421AF5CF1009B7C93 /* ShadowsocksConnectivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShadowsocksConnectivity.h; sourceTree = "<group>"; };
-		FCAFD3131FBA52690057EE7F /* Shadowsocks_macOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Shadowsocks_macOS.framework; path = "Outline/Plugins/cordova-plugin-outline/Shadowsocks_macOS.framework"; sourceTree = "<group>"; };
+		FCAFD3131FBA52690057EE7F /* Shadowsocks_macOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Shadowsocks_macOS.framework; path = "OIC/Plugins/cordova-plugin-outline/Shadowsocks_macOS.framework"; sourceTree = "<group>"; };
 		FCB2DED41F3E3CAD000C6A44 /* VpnExtension.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = VpnExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -259,7 +259,7 @@
 				19209C3AABCC45AB8CFDD974 /* CDVClipboard.h */,
 			);
 			name = Plugins;
-			path = Outline/Plugins;
+			path = OIC/Plugins;
 			sourceTree = SOURCE_ROOT;
 		};
 		70BD681A18FFB02D00A1EFCF = {
@@ -267,12 +267,12 @@
 			children = (
 				707060B018FFC0D900755D46 /* config.xml */,
 				70DAA8D91908785C00AF3749 /* www */,
-				70BD682C18FFB02D00A1EFCF /* Outline */,
+				70BD682C18FFB02D00A1EFCF /* OIC */,
 				70BD686818FFB0BF00A1EFCF /* Classes */,
 				7069FBC31905A1F9000B48E1 /* Plugins */,
 				70D86C851B903D11000750E0 /* Resources */,
 				FC5FF92C1F3E1E5F0032A745 /* VpnExtension */,
-				FC0799E72037532A00A1C822 /* OutlineLauncher */,
+				FC0799E72037532A00A1C822 /* OICLauncher */,
 				70BD682518FFB02D00A1EFCF /* Frameworks */,
 				70BD682418FFB02D00A1EFCF /* Products */,
 			);
@@ -281,9 +281,9 @@
 		70BD682418FFB02D00A1EFCF /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				70BD682318FFB02D00A1EFCF /* Outline.app */,
+				70BD682318FFB02D00A1EFCF /* OIC.app */,
 				FC5FF92B1F3E1E5F0032A745 /* VpnExtension.appex */,
-				FC0799E62037532900A1C822 /* OutlineLauncher.app */,
+				FC0799E62037532900A1C822 /* OICLauncher.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -318,25 +318,25 @@
 			name = "Other Frameworks";
 			sourceTree = "<group>";
 		};
-		70BD682C18FFB02D00A1EFCF /* Outline */ = {
+		70BD682C18FFB02D00A1EFCF /* OIC */ = {
 			isa = PBXGroup;
 			children = (
 				FCB2DED41F3E3CAD000C6A44 /* VpnExtension.entitlements */,
-				FC5FF9121F3E1D1B0032A745 /* Outline.entitlements */,
+				FC5FF9121F3E1D1B0032A745 /* OIC.entitlements */,
 				707060AE18FFC05700755D46 /* MainViewController.xib */,
 				70BD683E18FFB02D00A1EFCF /* Images.xcassets */,
 				70BD682D18FFB02D00A1EFCF /* Supporting Files */,
 			);
-			path = Outline;
+			path = OIC;
 			sourceTree = "<group>";
 		};
 		70BD682D18FFB02D00A1EFCF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				70BD682E18FFB02D00A1EFCF /* Outline-Info.plist */,
+				70BD682E18FFB02D00A1EFCF /* OIC-Info.plist */,
 				70BD682F18FFB02D00A1EFCF /* InfoPlist.strings */,
 				70BD683218FFB02D00A1EFCF /* main.m */,
-				70BD683418FFB02D00A1EFCF /* Outline-Prefix.pch */,
+				70BD683418FFB02D00A1EFCF /* OIC-Prefix.pch */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -360,7 +360,7 @@
 				70BD686C18FFB0BF00A1EFCF /* MainViewController.m */,
 			);
 			name = Classes;
-			path = Outline/Classes;
+			path = OIC/Classes;
 			sourceTree = "<group>";
 		};
 		70D86C851B903D11000750E0 /* Resources */ = {
@@ -371,18 +371,18 @@
 				D83B939D01CF4540A9A3DF86 /* vpn */,
 			);
 			name = Resources;
-			path = Outline/Resources;
+			path = OIC/Resources;
 			sourceTree = "<group>";
 		};
-		FC0799E72037532A00A1C822 /* OutlineLauncher */ = {
+		FC0799E72037532A00A1C822 /* OICLauncher */ = {
 			isa = PBXGroup;
 			children = (
 				FC0799E82037532A00A1C822 /* AppDelegate.swift */,
 				FC0799EE2037532A00A1C822 /* Main.storyboard */,
 				FC0799F12037532A00A1C822 /* Info.plist */,
-				FC0799F22037532A00A1C822 /* OutlineLauncher.entitlements */,
+				FC0799F22037532A00A1C822 /* OICLauncher.entitlements */,
 			);
-			path = OutlineLauncher;
+			path = OICLauncher;
 			sourceTree = "<group>";
 		};
 		FC5FF92C1F3E1E5F0032A745 /* VpnExtension */ = {
@@ -398,21 +398,21 @@
 				FC1FCADA216D289F00F078A5 /* Subnet.swift */,
 			);
 			name = VpnExtension;
-			path = Outline/Resources/vpn;
+			path = OIC/Resources/vpn;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		70BD682218FFB02D00A1EFCF /* Outline */ = {
+		70BD682218FFB02D00A1EFCF /* OIC */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 70BD685418FFB02D00A1EFCF /* Build configuration list for PBXNativeTarget "Outline" */;
+			buildConfigurationList = 70BD685418FFB02D00A1EFCF /* Build configuration list for PBXNativeTarget "OIC" */;
 			buildPhases = (
 				70BD687218FFB1A300A1EFCF /* Copy www directory */,
 				70BD681F18FFB02D00A1EFCF /* Sources */,
 				70BD682018FFB02D00A1EFCF /* Frameworks */,
 				70BD682118FFB02D00A1EFCF /* Resources */,
-				FC0799F62037541600A1C822 /* Copy OutlineLauncher */,
+				FC0799F62037541600A1C822 /* Copy OICLauncher */,
 				708BE60C1B851BAD00301ADB /* Embed Frameworks */,
 				FC5FF9411F3E1E5F0032A745 /* Embed App Extensions */,
 			);
@@ -422,14 +422,14 @@
 				70BD687118FFB19500A1EFCF /* PBXTargetDependency */,
 				FC5FF9391F3E1E5F0032A745 /* PBXTargetDependency */,
 			);
-			name = Outline;
-			productName = Outline;
-			productReference = 70BD682318FFB02D00A1EFCF /* Outline.app */;
+			name = OIC;
+			productName = OIC;
+			productReference = 70BD682318FFB02D00A1EFCF /* OIC.app */;
 			productType = "com.apple.product-type.application";
 		};
-		FC0799E52037532900A1C822 /* OutlineLauncher */ = {
+		FC0799E52037532900A1C822 /* OICLauncher */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FC0799F52037532A00A1C822 /* Build configuration list for PBXNativeTarget "OutlineLauncher" */;
+			buildConfigurationList = FC0799F52037532A00A1C822 /* Build configuration list for PBXNativeTarget "OICLauncher" */;
 			buildPhases = (
 				FC0799E22037532900A1C822 /* Sources */,
 				FC0799E32037532900A1C822 /* Frameworks */,
@@ -440,9 +440,9 @@
 			);
 			dependencies = (
 			);
-			name = OutlineLauncher;
-			productName = OutlineLauncher;
-			productReference = FC0799E62037532900A1C822 /* OutlineLauncher.app */;
+			name = OICLauncher;
+			productName = OICLauncher;
+			productReference = FC0799E62037532900A1C822 /* OICLauncher.app */;
 			productType = "com.apple.product-type.application";
 		};
 		FC5FF92A1F3E1E5F0032A745 /* VpnExtension */ = {
@@ -524,7 +524,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 70BD681E18FFB02D00A1EFCF /* Build configuration list for PBXProject "Outline" */;
+			buildConfigurationList = 70BD681E18FFB02D00A1EFCF /* Build configuration list for PBXProject "OIC" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -543,9 +543,9 @@
 			);
 			projectRoot = "";
 			targets = (
-				70BD682218FFB02D00A1EFCF /* Outline */,
+				70BD682218FFB02D00A1EFCF /* OIC */,
 				FC5FF92A1F3E1E5F0032A745 /* VpnExtension */,
-				FC0799E52037532900A1C822 /* OutlineLauncher */,
+				FC0799E52037532900A1C822 /* OICLauncher */,
 			);
 		};
 /* End PBXProject section */
@@ -800,29 +800,29 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Outline/Outline.entitlements;
+				CODE_SIGN_ENTITLEMENTS = OIC/OIC.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = QT8Z3Q9V3A;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Outline/Plugins/cordova-plugin-outline",
+					"$(PROJECT_DIR)/OIC/Plugins/cordova-plugin-outline",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Outline/Outline-Prefix.pch";
+				GCC_PREFIX_HEADER = "OIC/OIC-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"\"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/include\"",
 					"\"$(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include\"\n\"$(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include\"\n",
 				);
-				INFOPLIST_FILE = "Outline/Outline-Info.plist";
+				INFOPLIST_FILE = "OIC/OIC-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = org.outline.macos.client;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easycastle.oic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "Outline/Resources/Outline-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "OIC/Resources/Outline-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				WRAPPER_EXTENSION = app;
 			};
@@ -833,29 +833,29 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = Outline/Outline.entitlements;
+				CODE_SIGN_ENTITLEMENTS = OIC/OIC.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = QT8Z3Q9V3A;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Outline/Plugins/cordova-plugin-outline",
+					"$(PROJECT_DIR)/OIC/Plugins/cordova-plugin-outline",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "Outline/Outline-Prefix.pch";
+				GCC_PREFIX_HEADER = "OIC/OIC-Prefix.pch";
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"\"$(BUILD_ROOT)/../IntermediateBuildFilesPath/UninstalledProducts/include\"",
 					"\"$(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include\"\n\"$(OBJROOT)/UninstalledProducts/$(PLATFORM_NAME)/include\"\n",
 				);
-				INFOPLIST_FILE = "Outline/Outline-Info.plist";
+				INFOPLIST_FILE = "OIC/OIC-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = org.outline.macos.client;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easycastle.oic;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "Outline/Resources/Outline-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "OIC/Resources/Outline-Bridging-Header.h";
 				SWIFT_VERSION = 4.2;
 				WRAPPER_EXTENSION = app;
 			};
@@ -878,7 +878,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_ENTITLEMENTS = OutlineLauncher/OutlineLauncher.entitlements;
+				CODE_SIGN_ENTITLEMENTS = OICLauncher/OICLauncher.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -888,15 +888,15 @@
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Outline/Plugins/cordova-plugin-outline",
+					"$(PROJECT_DIR)/OIC/Plugins/cordova-plugin-outline",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = OutlineLauncher/Info.plist;
+				INFOPLIST_FILE = OICLauncher/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = org.outline.macos.client.launcher;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easycastle.oic.launcher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -922,7 +922,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_ENTITLEMENTS = OutlineLauncher/OutlineLauncher.entitlements;
+				CODE_SIGN_ENTITLEMENTS = OICLauncher/OICLauncher.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -931,15 +931,15 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Outline/Plugins/cordova-plugin-outline",
+					"$(PROJECT_DIR)/OIC/Plugins/cordova-plugin-outline",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = OutlineLauncher/Info.plist;
+				INFOPLIST_FILE = OICLauncher/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = org.outline.macos.client.launcher;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easycastle.oic.launcher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -956,7 +956,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_ENTITLEMENTS = Outline/VpnExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = OIC/VpnExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
@@ -965,14 +965,14 @@
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Outline/Plugins/cordova-plugin-outline",
+					"$(PROJECT_DIR)/OIC/Plugins/cordova-plugin-outline",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "$(SRCROOT)/Outline/VpnExtension-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/OIC/VpnExtension-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = org.outline.macos.client.VpnExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easycastle.OIC.VpnExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -989,7 +989,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CODE_SIGN_ENTITLEMENTS = Outline/VpnExtension.entitlements;
+				CODE_SIGN_ENTITLEMENTS = OIC/VpnExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -997,14 +997,14 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
-					"$(PROJECT_DIR)/Outline/Plugins/cordova-plugin-outline",
+					"$(PROJECT_DIR)/OIC/Plugins/cordova-plugin-outline",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
-				INFOPLIST_FILE = "$(SRCROOT)/Outline/VpnExtension-Info.plist";
+				INFOPLIST_FILE = "$(SRCROOT)/OIC/VpnExtension-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = org.outline.macos.client.VpnExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easycastle.OIC.VpnExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -1015,7 +1015,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		70BD681E18FFB02D00A1EFCF /* Build configuration list for PBXProject "Outline" */ = {
+		70BD681E18FFB02D00A1EFCF /* Build configuration list for PBXProject "OIC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				70BD685218FFB02D00A1EFCF /* Debug */,
@@ -1024,7 +1024,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		70BD685418FFB02D00A1EFCF /* Build configuration list for PBXNativeTarget "Outline" */ = {
+		70BD685418FFB02D00A1EFCF /* Build configuration list for PBXNativeTarget "OIC" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				70BD685518FFB02D00A1EFCF /* Debug */,
@@ -1033,7 +1033,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FC0799F52037532A00A1C822 /* Build configuration list for PBXNativeTarget "OutlineLauncher" */ = {
+		FC0799F52037532A00A1C822 /* Build configuration list for PBXNativeTarget "OICLauncher" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FC0799F32037532A00A1C822 /* Debug */,

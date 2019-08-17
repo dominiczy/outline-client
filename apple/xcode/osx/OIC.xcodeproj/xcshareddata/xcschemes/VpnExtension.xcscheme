@@ -18,7 +18,7 @@
                BlueprintIdentifier = "FC5FF92A1F3E1E5F0032A745"
                BuildableName = "VpnExtension.appex"
                BlueprintName = "VpnExtension"
-               ReferencedContainer = "container:Outline.xcodeproj">
+               ReferencedContainer = "container:OIC.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -30,9 +30,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "70BD682218FFB02D00A1EFCF"
-               BuildableName = "Outline.app"
-               BlueprintName = "Outline"
-               ReferencedContainer = "container:Outline.xcodeproj">
+               BuildableName = "OIC.app"
+               BlueprintName = "OIC"
+               ReferencedContainer = "container:OIC.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -51,7 +51,7 @@
             BlueprintIdentifier = "FC5FF92A1F3E1E5F0032A745"
             BuildableName = "VpnExtension.appex"
             BlueprintName = "VpnExtension"
-            ReferencedContainer = "container:Outline.xcodeproj">
+            ReferencedContainer = "container:OIC.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -74,9 +74,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "70BD682218FFB02D00A1EFCF"
-            BuildableName = "Outline.app"
-            BlueprintName = "Outline"
-            ReferencedContainer = "container:Outline.xcodeproj">
+            BuildableName = "OIC.app"
+            BlueprintName = "OIC"
+            ReferencedContainer = "container:OIC.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -94,9 +94,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "70BD682218FFB02D00A1EFCF"
-            BuildableName = "Outline.app"
-            BlueprintName = "Outline"
-            ReferencedContainer = "container:Outline.xcodeproj">
+            BuildableName = "OIC.app"
+            BlueprintName = "OIC"
+            ReferencedContainer = "container:OIC.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

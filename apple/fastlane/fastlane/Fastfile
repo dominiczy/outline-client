@@ -67,12 +67,12 @@ end
 
 platform :osx do
   # TODO(alalama): Lanes only work locally. Add Travis support.
-  desc "Build the Outline macOS client for release"
+  desc "Build the OIC macOS client for release"
   lane :package do
     build_outline
   end
 
-  desc "Upload a release build of the Outline macOS client to the Mac App Store"
+  desc "Upload a release build of the OIC macOS client to the Mac App Store"
   lane :release do
     package
     upload_to_app_store(skip_metadata: true, skip_screenshots: true,
