@@ -314,12 +314,7 @@ export class App {
   private confirmAddServer(accessKey: string, fromClipboard = false) {
     const addServerView = this.rootEl.$.addServerView;
     accessKey = unwrapInvite(accessKey);
-    // if (fromClipboard && accessKey in this.ignoredAccessKeys) {
-    //   return console.debug('Ignoring access key');
-    // } else if (fromClipboard && addServerView.isAddingServer()) {
-    //   return console.debug('Already adding a server');
-    // }
-    // Expect SHADOWSOCKS_URI.parse to throw on invalid access key; propagate any exception.
+
     let shadowsocksConfig = null;
     try {
       shadowsocksConfig = SHADOWSOCKS_URI.parse(accessKey);
@@ -332,73 +327,66 @@ export class App {
     }
     // instead use access key from clipboard to login
     this.loginViewEl.loginFromAccessKey(accessKey);
-    // const name = shadowsocksConfig.extra.outline ?
-    //     this.localize('server-default-name-outline') :
-    //     shadowsocksConfig.tag.data ? shadowsocksConfig.tag.data :
-    //                                  this.localize('server-default-name');
-    // const serverConfig = {
-    //   host: shadowsocksConfig.host.data,
-    //   port: shadowsocksConfig.port.data,
-    //   method: shadowsocksConfig.method.data,
-    //   password: shadowsocksConfig.password.data,
-    //   name,
-    // };
-    // if (!this.serverRepo.containsServer(serverConfig)) {
-    //   // Only prompt the user to add new servers.
-    //   try {
-    //     addServerView.openAddServerConfirmationSheet(accessKey, serverConfig);
-    //   } catch (err) {
-    //     console.error('Failed to open add sever confirmation sheet:', err.message);
-    //     if (!fromClipboard) this.showLocalizedError();
-    //   }
-    // } else if (!fromClipboard) {
-    //   // Display error message if this is not a clipboard add.
-    //   addServerView.close();
-    //   this.showLocalizedError(new errors.ServerAlreadyAdded(
-    //       this.serverRepo.createServer('', serverConfig, this.eventQueue)));
-    // }
   }
 
   private forgetAllServers() {
     const servers = this.serverRepo.getAll();
-    console.debug('Servers before: '+ servers);
+    console.debug('Servers before forget: ');
+    console.debug(servers);
     const forgotArray = servers.map(server => {
-      if (server.checkRunning()) {
-        return false;
-      } else {
         this.serverRepo.forget(server.id);
         return true;
-      }
     });
-    console.debug('Servers after: '+ this.serverRepo.getAll());
+    console.debug('Servers after forget: ');
+    console.debug(this.serverRepo.getAll());
     return forgotArray;
   }
 
-  private addServerDirectly(event: CustomEvent) {
-    console.log('Servers before add: ' + this.serverRepo.getAll());
-    const forgotArray = this.forgetAllServers();
-    const serverNotRunning = !(forgotArray.includes(false));
+  private getServerConfFromKey(accessKey: string) {
+    accessKey = unwrapInvite(accessKey);
+    let shadowsocksConfig = null;
+    shadowsocksConfig = SHADOWSOCKS_URI.parse(accessKey);
+    const name = shadowsocksConfig.extra.outline ?
+        this.localize('server-default-name-outline') :
+        shadowsocksConfig.tag.data ? shadowsocksConfig.tag.data :
+            this.localize('server-default-name');
+    const serverConfig = {
+        host: shadowsocksConfig.host.data,
+        port: shadowsocksConfig.port.data,
+        method: shadowsocksConfig.method.data,
+        password: shadowsocksConfig.password.data,
+        name,
+    };
+    return serverConfig;
+  }
 
-    if (serverNotRunning) {
-      let accessKey = event.detail.accessKey;
-      accessKey = unwrapInvite(accessKey);
-      let shadowsocksConfig = null;
-      shadowsocksConfig = SHADOWSOCKS_URI.parse(accessKey);
-      const name = shadowsocksConfig.extra.outline ?
-          this.localize('server-default-name-outline') :
-          shadowsocksConfig.tag.data ? shadowsocksConfig.tag.data :
-              this.localize('server-default-name');
-      const serverConfig = {
-          host: shadowsocksConfig.host.data,
-          port: shadowsocksConfig.port.data,
-          method: shadowsocksConfig.method.data,
-          password: shadowsocksConfig.password.data,
-          name,
-      };
-      this.serverRepo.add(serverConfig);
+  private addServerDirectly(event: CustomEvent) {
+    const currentServers = this.serverRepo.getAll();
+
+    console.log('Servers before add: ');
+    console.log(currentServers);
+
+    const accessKey = event.detail.accessKey;
+    const serverConfig = this.getServerConfFromKey(accessKey);
+    console.log('Server config to add: ');
+    console.log(serverConfig);
+
+    if (currentServers.length > 0) {
+      const currentConf = currentServers[0]['config'];
+      if (JSON.stringify(currentConf) === JSON.stringify(serverConfig)) {
+        console.log('Identical to current conf, not adding');
+        return;
+      }
+      console.log('Confs different');
+      console.log(currentConf);
     }
 
-    console.log('Servers after add: ' + this.serverRepo.getAll());
+    this.forgetAllServers();
+    this.serverRepo.add(serverConfig);
+
+    console.log('Server after add: ');
+    const currentConf = this.serverRepo.getAll();
+    console.log(currentConf);
   }
 
   private payOrder(event: CustomEvent) {
