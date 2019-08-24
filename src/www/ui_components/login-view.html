@@ -134,6 +134,15 @@
     </iron-ajax>
 
     <iron-ajax
+      id="chargeAjax"
+      method="post"
+      content-type="application/json"
+      headers="[[_authorizationHeader(storedUser)]]"
+      handle-as="text"
+      on-error="handleUserError">
+    </iron-ajax>
+
+    <iron-ajax
       id="serverReachableAjax"
       method="post"
       content-type="application/json"
@@ -150,12 +159,11 @@
     </iron-ajax>
 
     <div class="card">
+      <template is="dom-if" if="[[error]]">
+        <p class="alert-error"><strong>Error:</strong> [[error]]</p>
+      </template>
 
       <div id="notbuying" hidden$="[[isBuying]]">
-
-        <template is="dom-if" if="[[error]]">
-          <p class="alert-error"><strong>Error:</strong> [[error]]</p>
-        </template>
 
         <div id="unauthenticated" class="center-wide" hidden$="[[loggedIn]]">
           <h1>[[localize('login-title')]]</h1>
@@ -203,6 +211,8 @@
 
 
       <template is="dom-if" if="[[isBuying]]">
+        <script src="https://checkout.stripe.com/checkout.js"></script>
+
         <div class="center-wide">
           <h1>[[localize('buy-title')]]</h1>
           <paper-radio-group selected="{{chosenProduct}}">
@@ -210,6 +220,10 @@
               <paper-radio-button name="[[item.name]]">[[item.display_name]]: [[localize('pound-sign')]] [[item.final_display_price]]</paper-radio-button><br>
             </template>
           </paper-radio-group>
+
+          <!--<paper-button on-tap="window.open('https://openinternetglobal.com/buy/?quantity=1&product={{chosenProduct}}', '_system'); return false;">[[localize('pay-other-button-text')]]</paper-button>-->
+
+          <paper-button id="payCardButton" on-tap="_payOrderCard">[[localize('pay-other-button-text')]]</paper-button>
 
           <paper-button id="payButton" on-tap="_payOrder">[[localize('alipay-button-text')]]</paper-button>
 
@@ -219,6 +233,7 @@
 
     </div>
   </template>
+
 
   <script>
     'use strict';
@@ -265,11 +280,8 @@
       },
 
       _payOrder: function() {
-        let product_name = this.chosenProduct;
-        let product = this.userData.products.find(obj => {
-          return obj.name === product_name
-        });
-        let name = product_name;
+        let name = this.chosenProduct;
+        let product = this.getProduct(name);
         let amount = product.pay_price;
         let email = this.userData.user_email;
 
@@ -278,6 +290,51 @@
         console.log('paying ');
         console.log(eventDct);
         this.fire(eventId, eventDct);
+      },
+
+      _payOrderCard: function() {
+        console.log('paying by card');
+        var handler = StripeCheckout.configure({
+          key: 'pk_live_NkeUgHrAQQTovEgNI22z26qR00fbAacxAp',
+          locale: 'auto',
+          source: (source) => this.chargeSource(source)
+        });
+
+        let name = this.chosenProduct;
+        let product = this.getProduct(name);
+        let amount = product.pay_price;
+
+        handler.open({
+          name: 'OpenInternetGlobal',
+          description: '1 ' + this.chosenProduct,
+          currency: 'gbp',
+          email: this.userData.user_email,
+          amount: amount
+        });
+
+        console.log('handler opened');
+      },
+
+      chargeSource(source) {
+        console.log('Got source, calling website api_charge/ endpoint');
+        let name = this.chosenProduct;
+        console.log('name: ' + name);
+        let product = this.getProduct(name);
+        let amount = product.pay_price;
+
+        const orderInfo = {quantity: 1, product_name: this.chosenProduct, user_email: this.userData.user_email,
+          stripe_amount: amount, stripeToken: source.id};
+
+        this.$.chargeAjax.url = this.api_server_address() + 'api_charge/';
+        this.$.chargeAjax.body = orderInfo;
+        this.$.chargeAjax.generateRequest();
+      },
+
+      getProduct(productName) {
+        let product = this.userData.products.find(obj => {
+          return obj.name === productName
+        });
+        return product;
       },
 
       addServer() {
@@ -301,6 +358,7 @@
       },
 
       api_server_address () {
+
         return 'https://openinternetchina.com/';
       },
 
@@ -431,8 +489,10 @@
 
           if (userData.has_small_discount) {
             prod.final_display_price = product.display_price_small_discount + localize('discount-price');
+            prod.pay_price = prod.pay_price_small_discount;
           } else if (userData.has_large_discount) {
             prod.final_display_price = product.display_price_large_discount + localize('discount-price');
+            prod.pay_price = prod.pay_price_large_discount;
           } else {
             prod.final_display_price = product.display_price;
           }
