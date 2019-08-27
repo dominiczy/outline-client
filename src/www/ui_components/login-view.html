@@ -200,9 +200,15 @@
             <server-list id="serverList" servers="{{servers}}" localize="[[localize]]" root-path="[[rootPath]]"></server-list>
           </div>
 
-          <div id="expired" class="center-wide" hidden$="[[hasActiveOrder]]">
+          <div id="expired" class="center-wide" hidden$="[[hideExpired]]">
             <h1>[[localize('expired-title')]]</h1>
             <p>[[localize('expired-text')]]</p>
+            <paper-button class="center" on-tap="toggleBuyPage">[[localize('buy-button-text')]]</paper-button>
+          </div>
+
+          <div id="first-time" class="center-wide" hidden$="[[hideFirstTime]]">
+            <h1>[[localize('first-time-title')]]</h1>
+            <p>[[localize('first-time-text')]]</p>
             <paper-button class="center" on-tap="toggleBuyPage">[[localize('buy-button-text')]]</paper-button>
           </div>
 
@@ -220,8 +226,6 @@
               <paper-radio-button name="[[item.name]]">[[item.display_name]]: [[localize('pound-sign')]] [[item.final_display_price]]</paper-radio-button><br>
             </template>
           </paper-radio-group>
-
-          <!--<paper-button on-tap="window.open('https://openinternetglobal.com/buy/?quantity=1&product={{chosenProduct}}', '_system'); return false;">[[localize('pay-other-button-text')]]</paper-button>-->
 
           <paper-button id="payCardButton" on-tap="_payOrderCard">[[localize('pay-other-button-text')]]</paper-button>
 
@@ -260,6 +264,8 @@
         server_id: String,
         isBuying: false,
         chosenProduct: String,
+        hideExpired: true,
+        hideFirstTime: false
       },
 
       ready: function() {
@@ -268,6 +274,8 @@
         this.chosenProduct = 'year';
         this.hasActiveOrder = false;
         this.hasNoActiveOrder = true;
+        this.hideExpired = true;
+        this.hideFirstTime = false;
         this.arrangeConnect();
       },
 
@@ -358,7 +366,6 @@
       },
 
       api_server_address () {
-
         return 'https://openinternetchina.com/';
       },
 
@@ -401,10 +408,11 @@
         if (this.loggedIn) {
           // first, get from localStorage, then update
           let hasActiveOrder = window.localStorage.getItem('hasActiveOrder');
+          let noConnections = window.localStorage.getItem('noConnections');
           console.log('Local hasActiveOrder');
           console.log(hasActiveOrder);
-          if (hasActiveOrder) {
-            this.setActiveOrder(hasActiveOrder);
+          if (hasActiveOrder || noConnections) {
+            this.setStateVars(hasActiveOrder, noConnections);
           }
 
           this.$.getDataAjax.url = this.api_server_address() + 'api_user_data/';
@@ -414,13 +422,16 @@
 
       setUserData(data) {
         this.userData = data;
-        this.setActiveOrder(this.userData.has_active_order);
+        this.setStateVars(this.userData.has_active_order, this.userData.no_connections);
       },
 
-      setActiveOrder(hasActiveOrder) {
+      setStateVars(hasActiveOrder, noConnections) {
         this.hasActiveOrder = hasActiveOrder;
         this.hasNoActiveOrder = !hasActiveOrder;
         window.localStorage.setItem('hasActiveOrder', this.hasActiveOrder);
+        window.localStorage.setItem('noConnections', noConnections);
+        this.hideExpired = hasActiveOrder || noConnections;
+        this.hideFirstTime = !noConnections;
       },
 
       handleDataResponse(event) {
