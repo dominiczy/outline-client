@@ -187,6 +187,14 @@
         </div>
 
         <div id="authenticated" hidden$="[[loggedOut]]">
+          <div id="sharing" class="center-wide">
+            <p><i>
+              [[localize('sharing-explanation-1')]]
+              [[userData.nr_of_referred_until_reward]]
+              [[localize('sharing-explanation-2')]]
+            </i></p>
+          </div>
+
           <div id="datausage" class="center-wide">
             <p>[[localize('data-usage')]]: [[userData.total_data_usage]]
             <template is="dom-if" if="[[userData.had_only_trial]]">
@@ -366,6 +374,8 @@
       },
 
       api_server_address () {
+        // FIXME change back
+        // return 'https://openinternetvpn.com/';
         return 'https://openinternetchina.com/';
       },
 
@@ -423,6 +433,7 @@
       setUserData(data) {
         this.userData = data;
         this.setStateVars(this.userData.has_active_order, this.userData.no_connections);
+        this.setAppWideVars(data);
       },
 
       setStateVars(hasActiveOrder, noConnections) {
@@ -432,6 +443,12 @@
         window.localStorage.setItem('noConnections', noConnections);
         this.hideExpired = hasActiveOrder || noConnections;
         this.hideFirstTime = !noConnections;
+      },
+
+      setAppWideVars(userData) {
+        window.localStorage.setItem('referralLink', userData.referral_link);
+        window.localStorage.setItem('userEmail', userData.user_email);
+        window.localStorage.setItem('wechatContact', userData.wechat_contact);
       },
 
       handleDataResponse(event) {
@@ -512,6 +529,7 @@
 
         return result;
       },
+
     });
   </script>
 </dom-module>

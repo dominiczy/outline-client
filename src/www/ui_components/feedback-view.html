@@ -71,6 +71,10 @@
     </style>
     <paper-card>
       <div class="card-content">
+        <p><b>
+          [[localize('feedback-wechat')]][[getWechat()]]
+        </b></p>
+
         <paper-dropdown-menu id="dropdownMenu" horizontal-align="left" no-label-float required>
           <paper-listbox id="categoryList" selected="{{category}}" attr-for-selected="value" slot="dropdown-content">
             <paper-item value="general">[[localize('feedback-general')]]</paper-item>
@@ -87,7 +91,7 @@
 
         <paper-textarea id="feedback" name="feedback" label="[[localize('feedback-input')]]" rows="3" onkeydown="this.invalid = false;" required></paper-textarea>
 
-        <p class="info" inner-h-t-m-l="[[localize('feedback-privacy', 'privacyPolicyLinkOpen', '<a href=https://s3.amazonaws.com/outline-vpn/index.html#/en/support/dataCollection>', 'privacyPolicyLinkClose', '</a>')]]"></p>
+        <p class="info">[[localize('feedback-email-info')]][[getUserEmail()]]</p>
       </div>
       <div class="card-actions">
         <paper-button id="submitButton" disabled$="[[submitting]]">[[submitButtonLabel]]</paper-button>
@@ -170,7 +174,13 @@
         this.$.categoryList.category = 'general';
         this.$.feedback.value = '';
         this.$.email.value = '';
-      }
+      },
+      getUserEmail() {
+        return window.localStorage.getItem('userEmail');
+      },
+      getWechat() {
+        return window.localStorage.getItem('wechatContact');
+      },
     });
   </script>
 </dom-module>
