@@ -72,7 +72,11 @@
     <paper-card>
       <div class="card-content">
         <p><b>
-          [[localize('feedback-wechat')]][[getWechat()]]
+          [[localize('feedback-wechat')]][[getWechat()]]<br>
+          [[localize('feedback-qrcode')]]<br>
+          <div style="display: flex; justify-content: center;">
+            <img src="https://schaduw-static.s3.amazonaws.com/static/payments/images/wechat_qr.png" alt="[[getWechat()]]" height="200" width="200">
+          </div>
         </b></p>
 
         <paper-dropdown-menu id="dropdownMenu" horizontal-align="left" no-label-float required>

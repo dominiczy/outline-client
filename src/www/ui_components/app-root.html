@@ -599,12 +599,11 @@
         this.$.addServerView.openAddServerSheet();
       },
       shareOic: function () {
-        const referralLink = window.localStorage.getItem('referralLink');
-        if (referralLink) {
-          let link = referralLink;
-        } else {
-          let link = 'https://openinternetglobal.com';
+        let link = window.localStorage.getItem('referralLink');
+        if (!link) {
+          link = 'https://openinternetglobal.com';
         }
+        console.log('Sharing link: ' +  link);
         window.plugins.socialsharing.share(null, null, null, link);
       },
       _computeLanguage: function (LANGUAGES_AVAILABLE, DEFAULT_LANGUAGE) {

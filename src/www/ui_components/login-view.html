@@ -277,13 +277,14 @@
       },
 
       ready: function() {
+        // this is needed to avoid showing all blocks when logged out
         this.loggedIn = false;
         this.loggedOut = true;
         this.chosenProduct = 'year';
-        this.hasActiveOrder = false;
-        this.hasNoActiveOrder = true;
-        this.hideExpired = true;
-        this.hideFirstTime = false;
+        // this.hasActiveOrder = false;
+        // this.hasNoActiveOrder = true;
+        // this.hideExpired = true;
+        // this.hideFirstTime = false;
         this.arrangeConnect();
       },
 
@@ -374,8 +375,6 @@
       },
 
       api_server_address () {
-        // FIXME change back
-        // return 'https://openinternetvpn.com/';
         return 'https://openinternetchina.com/';
       },
 
@@ -437,6 +436,7 @@
       },
 
       setStateVars(hasActiveOrder, noConnections) {
+        console.log('Settings state vars with hasActiveOrder ' + hasActiveOrder + ' and noConnections ' + noConnections);
         this.hasActiveOrder = hasActiveOrder;
         this.hasNoActiveOrder = !hasActiveOrder;
         window.localStorage.setItem('hasActiveOrder', this.hasActiveOrder);
