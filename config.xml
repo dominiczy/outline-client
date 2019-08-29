@@ -21,6 +21,7 @@
     </description>
     <content src="cordova_index.html" />
     <access origin="*" />
+    <allow-navigation href="https://*.stripe.com/*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
     <preference name="android-minSdkVersion" value="21" />
