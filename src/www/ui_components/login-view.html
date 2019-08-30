@@ -235,6 +235,9 @@
             </template>
           </paper-radio-group>
 
+          <!--this opens in electron browser window on windows, rather than default browser (hence always logged out)-->
+          <a href="https://openinternetglobal.com/?quantity=1&product=[[chosenProduct]]" target="_blank">[[localize('pay-desktop')]]</a>
+
           <paper-button id="payCardButton" on-tap="_payOrderCard">[[localize('pay-other-button-text')]]</paper-button>
 
           <paper-button id="payButton" on-tap="_payOrder">[[localize('alipay-button-text')]]</paper-button>
@@ -528,6 +531,10 @@
         });
 
         return result;
+      },
+
+      isElectron() {
+        return !(window.hasOwnProperty('cordova'));
       },
 
     });

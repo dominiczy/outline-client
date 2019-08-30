@@ -69,6 +69,7 @@
   "outline-plugin-error-unsupported-routing-table": "It seems like another VPN is active. Please disconnect it and try again.",
   "outline-plugin-error-vpn-permission-not-granted": "Outline needs your permission to set up a VPN connection to the server. Please try again, or submit feedback if you need help.",
   "password-field": "Password",
+  "pay-desktop": "Pay",
   "pay-other-button-text": "Pay with card",
   "pound-sign": "£",
   "privacy": "Privacy",

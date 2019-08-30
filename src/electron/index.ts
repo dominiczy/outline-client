@@ -421,7 +421,7 @@ ipcMain.on('localizationResponse', (event: Event, localizationResult: {[key: str
 
 function checkForUpdates() {
   try {
-    autoUpdater.checkForUpdates();
+    // autoUpdater.checkForUpdates();
   } catch (e) {
     console.error(`Failed to check for updates`, e);
   }
