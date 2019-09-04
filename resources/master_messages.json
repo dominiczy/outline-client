@@ -4,7 +4,7 @@
     "description": "The text for a button to close the current page or dialog."
   },
   "servers_page_title": {
-    "message": "Outline",
+    "message": "OpenInternetGlobal",
     "description": "The title of the main page of the application, showing the application's title (Outline). Outline is the product name and can be found in the translation glossary."
   },
   "servers_menu_item": {

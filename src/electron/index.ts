@@ -64,7 +64,7 @@ let currentConnection: ConnectionManager|undefined;
 
 function createWindow(connectionAtShutdown?: SerializableConnection) {
   // Create the browser window.
-  mainWindow = new BrowserWindow({width: 360, height: 640, resizable: false});
+  mainWindow = new BrowserWindow({width: 400, height: 700, resizable: false, title: 'OpenInternetGlobal'});
 
   const pathToIndexHtml = path.join(app.getAppPath(), 'www', 'electron_index.html');
   const webAppUrl = new url.URL(`file://${pathToIndexHtml}`);
@@ -147,7 +147,7 @@ function createTrayIcon(status: ConnectionStatus) {
         mainWindow.hide();
       }
     });
-    tray.setToolTip('Outline');
+    tray.setToolTip('OpenInternetGlobal');
   }
   // Retrieve localized strings, falling back to the pre-populated English default.
   const statusString = isConnected ? localizedStrings['connected-server-state'] :

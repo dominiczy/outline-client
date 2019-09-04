@@ -9,7 +9,7 @@
     "third_party",
     "tools"
   ],
-  "artifactName": "OIC.${ext}",
+  "artifactName": "OpenInternetGlobal.${ext}",
   "directories": {
     "output": "build/dist"
   },
