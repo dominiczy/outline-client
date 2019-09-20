@@ -510,13 +510,14 @@ export class App {
     if (!formData) {
       return;
     }
-    const {feedback, category, email} = formData;
+    console.log('submitting feedback');
+    const {feedback} = formData;
     this.rootEl.$.feedbackView.submitting = true;
-    this.loginViewEl.feedback(feedback, category, email);
+    this.feedbackViewEl.feedback(feedback);
 
     this.rootEl.$.feedbackView.submitting = false;
     this.rootEl.$.feedbackView.resetForm();
-    this.changeToDefaultPage();
+    // this.changeToDefaultPage();
     this.rootEl.showToast(this.rootEl.localize('feedback-thanks'));
   }
 

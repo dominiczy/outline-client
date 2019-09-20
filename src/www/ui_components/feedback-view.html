@@ -69,6 +69,24 @@
         text-align: left;
       }
     </style>
+
+    <iron-ajax
+      id="getMessagesAjax"
+      method="get"
+      content-type="application/json"
+      headers="[[_authorizationHeader()]]"
+      handle-as="text"
+      on-response="handleMessagesResponse">
+    </iron-ajax>
+
+    <iron-ajax
+      id="feedbackAjax"
+      method="post"
+      content-type="application/json"
+      headers="[[_authorizationHeader()]]"
+      handle-as="text">
+    </iron-ajax>
+
     <paper-card>
       <div class="card-content">
         <p><b>
@@ -79,23 +97,11 @@
           </div>
         </b></p>
 
-        <paper-dropdown-menu id="dropdownMenu" horizontal-align="left" no-label-float required>
-          <paper-listbox id="categoryList" selected="{{category}}" attr-for-selected="value" slot="dropdown-content">
-            <paper-item value="general">[[localize('feedback-general')]]</paper-item>
-            <paper-item value="no-server">[[localize('feedback-no-server')]]</paper-item>
-            <paper-item value="cannot-add-server">[[localize('feedback-cannot-add-server')]]</paper-item>
-            <paper-item value="connection">[[localize('feedback-connection')]]</paper-item>
-            <paper-item value="performance">[[localize('feedback-performance')]]</paper-item>
-            <paper-item value="suggestion">[[localize('feedback-suggestion')]]</paper-item>
-          </paper-listbox>
-        </paper-dropdown-menu>
-
-        <paper-input id="email" type="email" name="email" label="[[localize('email-feedback-input')]]" on-value-changed="_emailValueChanged"  onkeydown="this.invalid = false;"></paper-input>
-        <p class="info" hidden$=[[!shouldShowLanguageDisclaimer]]>[[localize('feedback-language-disclaimer')]]</p>
+        <div id='messages' inner-h-t-m-l="[[messages]]"></div>
 
         <paper-textarea id="feedback" name="feedback" label="[[localize('feedback-input')]]" rows="3" onkeydown="this.invalid = false;" required></paper-textarea>
 
-        <p class="info">[[localize('feedback-email-info')]][[getUserEmail()]]</p>
+        <p class="info">[[localize('feedback-email-info')]]</p>
       </div>
       <div class="card-actions">
         <paper-button id="submitButton" disabled$="[[submitting]]">[[submitButtonLabel]]</paper-button>
@@ -129,20 +135,72 @@
         submitButtonLabel: {
           type: String,
           computed: '_computeSubmitButtonLabel(submitting, localize)'
-        }
+        },
+        messages: {
+          type: String,
+          value: 'Loading..',
+        },
       },
       ready: function () {
         var appRoot = Polymer.dom(this).getOwnerRoot().host;
+
+        this.async(this.fetchMessages, 4000);
+
         window.addEventListener('location-changed', function () {
           if (appRoot.page !== 'feedback') return;
-          // Workaround: https://github.com/PolymerElements/paper-dropdown-menu/issues/159#issuecomment-229958448
-          if (!this.$.dropdownMenu.value) {
-            var tmp = this.$.categoryList.selected;
-            this.$.categoryList.selected = undefined;
-            this.$.categoryList.selected = tmp;
-          }
         }.bind(this));
       },
+
+      getToken() {
+        return window.localStorage.getItem('token_oic');
+      },
+
+      _acceptHeader() {
+        return {
+          "Accept": "application/json"
+        };
+      },
+
+      _authorizationHeader() {
+        let outputHeaders = this._acceptHeader();
+        let token = this.getToken();
+        if (token) {
+          outputHeaders['Authorization'] = "Token " + token;
+        }
+        return outputHeaders;
+      },
+
+      api_server_address () {
+        return 'https://openinternetvpn.com/';
+      },
+
+      fetchMessages() {
+        this.$.getMessagesAjax.url = this.api_server_address() + 'api_own_messages/';
+        this.$.getMessagesAjax.generateRequest();
+
+        console.log('fetchMessages called');
+
+        // this.async(this.fetchMessages, 5000);
+      },
+
+      handleMessagesResponse(event) {
+        console.log('got messages:');
+        console.log(event.detail.response);
+        var messageDict = JSON.parse(event.detail.response);
+        this.messages = messageDict.messagesHtml;
+        console.log(this.messages);
+        this.error = '';
+        this.async(this.fetchMessages, 30000);
+      },
+
+      feedback(feedback) {
+        this.$.feedbackAjax.url = this.api_server_address() + 'api_send_message/';
+        this.$.feedbackAjax.body = {'message': feedback};
+        this.$.feedbackAjax.generateRequest();
+        this.async(this.fetchMessages, 3000);
+        console.log('Sent feedback');
+      },
+
       _emailValueChanged: function() {
         this.hasEnteredEmail = !!this.$.email.value;
       },
@@ -159,7 +217,7 @@
         return !window.navigator.language.match(/^en/i) && hasEnteredEmail;
       },
       getValidatedFormData: function () {
-        var inputs = [this.$.categoryList, this.$.feedback, this.$.email];
+        var inputs = [this.$.feedback];
         for (var i = 0, input = inputs[i]; input; input = inputs[++i]) {
           if (input.validate && !input.validate()) {
             // The input.validate() call gives the input "invalid" styles if it's invalid,
@@ -169,15 +227,11 @@
           }
         }
         return {
-          category: this.category,
           feedback: this.$.feedback.value,
-          email: this.$.email.value
         };
       },
       resetForm: function () {
-        this.$.categoryList.category = 'general';
         this.$.feedback.value = '';
-        this.$.email.value = '';
       },
       getUserEmail() {
         return window.localStorage.getItem('userEmail');

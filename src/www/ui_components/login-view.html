@@ -134,6 +134,16 @@
     </iron-ajax>
 
     <iron-ajax
+      id="getBannerAjax"
+      method="get"
+      content-type="application/json"
+      headers="[[_authorizationHeader(storedUser)]]"
+      handle-as="text"
+      on-response="handleBannerResponse"
+      on-error="handleUserError">
+    </iron-ajax>
+
+    <iron-ajax
       id="chargeAjax"
       method="post"
       content-type="application/json"
@@ -150,18 +160,12 @@
       handle-as="text">
     </iron-ajax>
 
-    <iron-ajax
-      id="feedbackAjax"
-      method="post"
-      content-type="application/json"
-      headers="[[_authorizationHeader(storedUser)]]"
-      handle-as="text">
-    </iron-ajax>
-
     <div class="card">
       <template is="dom-if" if="[[error]]">
         <p class="alert-error"><strong>Error:</strong> [[error]]</p>
       </template>
+
+      <div id="banner" class="center-wide" inner-h-t-m-l="[[banner]]"></div>
 
       <div id="notbuying" hidden$="[[isBuying]]">
 
@@ -204,34 +208,34 @@
             </p>
           </div>
 
-          <template is="dom-if" if="[[userData.is_ios]]">
+          <!-- <template is="dom-if" if="[[userData.is_ios]]">
             <div class="center-wide">
             <a href="[[website_address()]]token_auth_redirect/?token=[[getToken()]]&next=order">
               [[localize('buy-browser')]]</a>
             </div>
-          </template>
+          </template> -->
 
           <div id="notexpired" class="server-list-container" hidden$="[[hasNoActiveOrder]]">
-            <template id="pay-button-additional" is="dom-if" if="[[userData.is_android]]">
+            <!-- <template id="pay-button-additional" is="dom-if" if="[[userData.is_android]]"> -->
               <paper-button class="center" on-tap="toggleBuyPage">[[localize('buy-button-text-alt')]]</paper-button>
-            </template>
+            <!-- </template> -->
             <server-list id="serverList" servers="{{servers}}" localize="[[localize]]" root-path="[[rootPath]]"></server-list>
           </div>
 
           <div id="expired" class="center-wide" hidden$="[[hideExpired]]">
             <h1>[[localize('expired-title')]]</h1>
-            <template id="pay-button-expired" is="dom-if" if="[[userData.is_android]]">
+            <!-- <template id="pay-button-expired" is="dom-if" if="[[userData.is_android]]"> -->
               <p>[[localize('expired-text')]]</p>
               <paper-button class="center" on-tap="toggleBuyPage">[[localize('buy-button-text')]]</paper-button>
-            </template>
+            <!-- </template> -->
           </div>
 
           <div id="first-time" class="center-wide" hidden$="[[hideFirstTime]]">
             <h1>[[localize('first-time-title')]]</h1>
-            <template id="pay-button-first-time" is="dom-if" if="[[userData.is_android]]">
+            <!-- <template id="pay-button-first-time" is="dom-if" if="[[userData.is_android]]"> -->
               <p>[[localize('first-time-text')]]</p>
               <paper-button class="center" on-tap="toggleBuyPage">[[localize('buy-button-text')]]</paper-button>
-            </template>
+            <!-- </template> -->
           </div>
 
         </div>
@@ -298,7 +302,8 @@
         isBuying: false,
         chosenProduct: String,
         hideExpired: true,
-        hideFirstTime: false
+        hideFirstTime: false,
+        banner: String
       },
 
       ready: function() {
@@ -311,6 +316,8 @@
         // this.hideExpired = true;
         // this.hideFirstTime = false;
         this.arrangeConnect();
+        this.banner = '';
+        this.getBanner();
       },
 
       toggleBuyPage() {
@@ -400,7 +407,11 @@
       },
 
       api_server_address () {
-        return 'https://openinternetchina.com/';
+        return 'https://openinternetvpn.com/';
+      },
+
+      api_server_address_alt () {
+        return 'https://openinternetglobal.com/';
       },
 
       website_address () {
@@ -440,6 +451,23 @@
 
       setAccessKeyClipBoard(accessKey) {
         this.accessKeyClipBoard = accessKey;
+      },
+
+      getBanner() {
+        console.log('getting banner');
+        this.$.getBannerAjax.url = this.api_server_address_alt() + 'api_banner/';
+        this.$.getBannerAjax.generateRequest();
+      },
+
+      handleBannerResponse(event) {
+        console.log('got banner:');
+        console.log(event.detail.response);
+        console.log(JSON.parse(event.detail.response));
+        var bannerDict = JSON.parse(event.detail.response);
+        this.banner = bannerDict.bannerHtml;
+        console.log(this.banner);
+        this.error = '';
+        console.log(bannerDict);
       },
 
       getUserData() {
@@ -529,12 +557,6 @@
         this.$.serverReachableAjax.url = this.api_server_address() + 'api_server_reachable/';
         this.$.serverReachableAjax.body = {'reachable': reachable};
         this.$.serverReachableAjax.generateRequest();
-      },
-
-      feedback(feedback, category, email) {
-        this.$.feedbackAjax.url = this.api_server_address() + 'api_feedback/';
-        this.$.feedbackAjax.body = {'subject': category, 'from_email': email, 'message': feedback};
-        this.$.feedbackAjax.generateRequest();
       },
 
       productsLocalized(userData, localize) {
