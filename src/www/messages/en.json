@@ -29,6 +29,7 @@
   "error-server-incompatible": "Sorry, this access key is not compatible with this version of Outline.",
   "error-timeout": "Something seems to be taking longer than expected. Quitting and restarting may help. If this happens again, please submit feedback.",
   "error-unexpected": "Sorry, an unexpected error occurred. Quitting and restarting may help. If this happens again, please submit feedback.",
+  "expiry-date": "Valid until",
   "expired-title": "Your access key has expired",
   "expired-text": "Click the button below to buy a new one",
   "feedback-cannot-add-server": "Can't add a server",

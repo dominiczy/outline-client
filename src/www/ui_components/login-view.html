@@ -139,8 +139,7 @@
       content-type="application/json"
       headers="[[_authorizationHeader(storedUser)]]"
       handle-as="text"
-      on-response="handleBannerResponse"
-      on-error="handleUserError">
+      on-response="handleBannerResponse">
     </iron-ajax>
 
     <iron-ajax
@@ -200,24 +199,28 @@
             </i></p>
           </div>
 
-          <div id="datausage" class="center-wide">
+          <!-- <div id="datausage" class="center-wide">
             <p>[[localize('data-usage')]]: [[userData.total_data_usage]]
             <template is="dom-if" if="[[userData.had_only_trial]]">
               ([[localize('trial-limit')]] [[userData.trial_limit]] [[localize('trial-limit-time')]])
             </template>
             </p>
-          </div>
+          </div> -->
 
-          <!-- <template is="dom-if" if="[[userData.is_ios]]">
+          <template is="dom-if" if="[[userData.is_ios]]">
             <div class="center-wide">
             <a href="[[website_address()]]token_auth_redirect/?token=[[getToken()]]&next=order">
               [[localize('buy-browser')]]</a>
             </div>
-          </template> -->
+          </template>
+
+          <div id="notexpireddate" class="center-wide" hidden$="[[hasNoActiveOrder]]">
+            <p>[[localize('expiry-date')]] [[expiryDate]]</p>
+          </div>
 
           <div id="notexpired" class="server-list-container" hidden$="[[hasNoActiveOrder]]">
             <!-- <template id="pay-button-additional" is="dom-if" if="[[userData.is_android]]"> -->
-              <paper-button class="center" on-tap="toggleBuyPage">[[localize('buy-button-text-alt')]]</paper-button>
+              <!-- <paper-button class="center" on-tap="toggleBuyPage">[[localize('buy-button-text-alt')]]</paper-button> -->
             <!-- </template> -->
             <server-list id="serverList" servers="{{servers}}" localize="[[localize]]" root-path="[[rootPath]]"></server-list>
           </div>
@@ -226,7 +229,7 @@
             <h1>[[localize('expired-title')]]</h1>
             <!-- <template id="pay-button-expired" is="dom-if" if="[[userData.is_android]]"> -->
               <p>[[localize('expired-text')]]</p>
-              <paper-button class="center" on-tap="toggleBuyPage">[[localize('buy-button-text')]]</paper-button>
+              <!-- <paper-button class="center" on-tap="toggleBuyPage">[[localize('buy-button-text')]]</paper-button> -->
             <!-- </template> -->
           </div>
 
@@ -234,7 +237,7 @@
             <h1>[[localize('first-time-title')]]</h1>
             <!-- <template id="pay-button-first-time" is="dom-if" if="[[userData.is_android]]"> -->
               <p>[[localize('first-time-text')]]</p>
-              <paper-button class="center" on-tap="toggleBuyPage">[[localize('buy-button-text')]]</paper-button>
+              <!-- <paper-button class="center" on-tap="toggleBuyPage">[[localize('buy-button-text')]]</paper-button> -->
             <!-- </template> -->
           </div>
 
@@ -294,10 +297,11 @@
         userData: {
           has_active_order: false,
           is_ios: true,
-          is_android: false
+          is_android: false,
         },
         hasActiveOrder: false,
         hasNoActiveOrder: true,
+        expiryDate: String,
         server_id: String,
         isBuying: false,
         chosenProduct: String,
@@ -488,8 +492,9 @@
 
       setUserData(data) {
         this.userData = data;
-        this.setStateVars(this.userData.has_active_order, this.userData.no_connections);
+        this.setStateVars(this.userData.has_active_order, this.userData.no_connections, this.userData.expiry);
         this.setAppWideVars(data);
+        this.expiryDate = this.userData.expiry.substring(0, 10);
       },
 
       setStateVars(hasActiveOrder, noConnections) {

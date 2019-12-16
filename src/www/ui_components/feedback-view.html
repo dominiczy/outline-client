@@ -144,7 +144,8 @@
       ready: function () {
         var appRoot = Polymer.dom(this).getOwnerRoot().host;
 
-        this.async(this.fetchMessages, 4000);
+        // this will fail and not retry if not logged in
+        this.async(this.fetchMessages, 30000);
 
         window.addEventListener('location-changed', function () {
           if (appRoot.page !== 'feedback') return;
@@ -180,7 +181,7 @@
 
         console.log('fetchMessages called');
 
-        // this.async(this.fetchMessages, 5000);
+        this.async(this.fetchMessages, 30000);
       },
 
       handleMessagesResponse(event) {
@@ -190,7 +191,7 @@
         this.messages = messageDict.messagesHtml;
         console.log(this.messages);
         this.error = '';
-        this.async(this.fetchMessages, 30000);
+        // this.async(this.fetchMessages, 30000);
       },
 
       feedback(feedback) {
