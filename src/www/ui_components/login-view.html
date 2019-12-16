@@ -170,7 +170,7 @@
 
         <div id="unauthenticated" class="center-wide" hidden$="[[loggedIn]]">
           <h1>[[localize('login-title')]]</h1>
-          <p>[[localize('login-hint-start')]]<a href="https://openinternetglobal.com">openinternetglobal.com</a>[[localize('login-hint-end')]]</p>
+          <p>[[localize('login-hint-start')]]<a href="https://openinternetglobal-cn.com">openinternetglobal-cn.com</a>[[localize('login-hint-end')]]</p>
           <paper-input-container>
             <label>[[localize('email-field')]]</label>
             <iron-input slot="input" bind-value="{{formUser}}">
@@ -419,7 +419,7 @@
       },
 
       website_address () {
-        return 'https://openinternetglobal.com/';
+        return 'https://openinternetglobal-cn.com/';
       },
 
       arrangeConnect() {
@@ -459,7 +459,7 @@
 
       getBanner() {
         console.log('getting banner');
-        this.$.getBannerAjax.url = this.api_server_address_alt() + 'api_banner/';
+        this.$.getBannerAjax.url = this.api_server_address() + 'api_banner/';
         this.$.getBannerAjax.generateRequest();
       },
 
