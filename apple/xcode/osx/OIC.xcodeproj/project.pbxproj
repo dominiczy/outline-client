@@ -473,7 +473,7 @@
 				ORGANIZATIONNAME = __CDV_ORGANIZATION_NAME__;
 				TargetAttributes = {
 					70BD682218FFB02D00A1EFCF = {
-						DevelopmentTeam = QT8Z3Q9V3A;
+						DevelopmentTeam = T8L3GBSGJ6;
 						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -493,7 +493,7 @@
 					};
 					FC0799E52037532900A1C822 = {
 						CreatedOnToolsVersion = 9.2;
-						DevelopmentTeam = QT8Z3Q9V3A;
+						DevelopmentTeam = T8L3GBSGJ6;
 						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -504,7 +504,7 @@
 					};
 					FC5FF92A1F3E1E5F0032A745 = {
 						CreatedOnToolsVersion = 8.3.2;
-						DevelopmentTeam = QT8Z3Q9V3A;
+						DevelopmentTeam = T8L3GBSGJ6;
 						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -803,7 +803,7 @@
 				CODE_SIGN_ENTITLEMENTS = OIC/OIC.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = QT8Z3Q9V3A;
+				DEVELOPMENT_TEAM = T8L3GBSGJ6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/OIC/Plugins/cordova-plugin-outline",
@@ -819,7 +819,7 @@
 				INFOPLIST_FILE = "OIC/OIC-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.easycastle.oic;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easycastle.oig;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "OIC/Resources/Outline-Bridging-Header.h";
@@ -836,7 +836,7 @@
 				CODE_SIGN_ENTITLEMENTS = OIC/OIC.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
-				DEVELOPMENT_TEAM = QT8Z3Q9V3A;
+				DEVELOPMENT_TEAM = T8L3GBSGJ6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/OIC/Plugins/cordova-plugin-outline",
@@ -852,7 +852,7 @@
 				INFOPLIST_FILE = "OIC/OIC-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.easycastle.oic;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easycastle.oig;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "OIC/Resources/Outline-Bridging-Header.h";
@@ -883,7 +883,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = QT8Z3Q9V3A;
+				DEVELOPMENT_TEAM = T8L3GBSGJ6;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -896,7 +896,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.easycastle.oic.launcher;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easycastle.oig.launcher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -927,7 +927,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = QT8Z3Q9V3A;
+				DEVELOPMENT_TEAM = T8L3GBSGJ6;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -939,7 +939,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.easycastle.oic.launcher;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easycastle.oig.launcher;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -960,7 +960,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = QT8Z3Q9V3A;
+				DEVELOPMENT_TEAM = T8L3GBSGJ6;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -972,7 +972,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.easycastle.OIC.VpnExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easycastle.oig.VpnExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;
@@ -993,7 +993,7 @@
 				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = QT8Z3Q9V3A;
+				DEVELOPMENT_TEAM = T8L3GBSGJ6;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1004,7 +1004,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @executable_path/../../../../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
-				PRODUCT_BUNDLE_IDENTIFIER = com.easycastle.OIC.VpnExtension;
+				PRODUCT_BUNDLE_IDENTIFIER = com.easycastle.oig.VpnExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SKIP_INSTALL = YES;

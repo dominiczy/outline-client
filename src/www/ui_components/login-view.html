@@ -191,13 +191,13 @@
 
         <!--Can use dom-if here instead? No, makes server card unresponsive-->
         <div id="not-buying" hidden$="[[loggedOut]]">
-          <div id="sharing" class="center-wide">
+          <!-- <div id="sharing" class="center-wide">
             <p><i>
               [[localize('sharing-explanation-1')]]
               [[userData.nr_of_referred_until_reward]]
               [[localize('sharing-explanation-2')]]
             </i></p>
-          </div>
+          </div> -->
 
           <!-- <div id="datausage" class="center-wide">
             <p>[[localize('data-usage')]]: [[userData.total_data_usage]]
@@ -207,12 +207,12 @@
             </p>
           </div> -->
 
-          <template is="dom-if" if="[[userData.is_ios]]">
+          <!-- <template is="dom-if" if="[[userData.is_ios]]"> -->
             <div class="center-wide">
             <a href="[[website_address()]]token_auth_redirect/?token=[[getToken()]]&next=order">
               [[localize('buy-browser')]]</a>
             </div>
-          </template>
+          <!-- </template> -->
 
           <div id="notexpireddate" class="center-wide" hidden$="[[hasNoActiveOrder]]">
             <p>[[localize('expiry-date')]] [[expiryDate]]</p>
@@ -220,7 +220,7 @@
 
           <div id="notexpired" class="server-list-container" hidden$="[[hasNoActiveOrder]]">
             <!-- <template id="pay-button-additional" is="dom-if" if="[[userData.is_android]]"> -->
-              <!-- <paper-button class="center" on-tap="toggleBuyPage">[[localize('buy-button-text-alt')]]</paper-button> -->
+            <!-- <paper-button class="center" on-tap="toggleBuyPage">[[localize('buy-button-text-alt')]]</paper-button> -->
             <!-- </template> -->
             <server-list id="serverList" servers="{{servers}}" localize="[[localize]]" root-path="[[rootPath]]"></server-list>
           </div>
@@ -245,7 +245,7 @@
       </div>
 
 
-      <template is="dom-if" if="[[isBuying]]">
+      <!-- <template is="dom-if" if="[[isBuying]]">
         <script src="https://checkout.stripe.com/checkout.js"></script>
 
         <div class="center-wide">
@@ -271,7 +271,7 @@
 
           <paper-button on-tap="toggleBuyPage">[[localize('cancel-button-text')]]</paper-button>
         </div>
-      </template>
+      </template> -->
 
     </div>
   </template>

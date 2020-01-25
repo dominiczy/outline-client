@@ -416,7 +416,7 @@
 				LastUpgradeCheck = 1010;
 				TargetAttributes = {
 					1D6058900D05DD3D006BFB54 = {
-						DevelopmentTeam = QT8Z3Q9V3A;
+						DevelopmentTeam = T8L3GBSGJ6;
 						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -427,7 +427,7 @@
 					};
 					3B0347471F212F0100C8EF1F = {
 						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = QT8Z3Q9V3A;
+						DevelopmentTeam = T8L3GBSGJ6;
 						LastSwiftMigration = 1010;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
@@ -599,7 +599,7 @@
 				CODE_SIGN_ENTITLEMENTS = OIC/OIC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				DEVELOPMENT_TEAM = QT8Z3Q9V3A;
+				DEVELOPMENT_TEAM = T8L3GBSGJ6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"OIC/Plugins/cordova-plugin-outline",
@@ -642,7 +642,7 @@
 				CODE_SIGN_ENTITLEMENTS = OIC/OIC.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = YES;
-				DEVELOPMENT_TEAM = QT8Z3Q9V3A;
+				DEVELOPMENT_TEAM = T8L3GBSGJ6;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"OIC/Plugins/cordova-plugin-outline",
@@ -689,7 +689,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = QT8Z3Q9V3A;
+				DEVELOPMENT_TEAM = T8L3GBSGJ6;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -740,7 +740,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = QT8Z3Q9V3A;
+				DEVELOPMENT_TEAM = T8L3GBSGJ6;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (

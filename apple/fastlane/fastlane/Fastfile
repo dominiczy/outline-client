@@ -34,7 +34,7 @@ def configure_travis_environment
 end
 
 def configure_local_environment
-  automatic_code_signing(use_automatic_signing: true, team_id: "QT8Z3Q9V3A",
+  automatic_code_signing(use_automatic_signing: true, team_id: "T8L3GBSGJ6",
                          code_sign_identity: "iPhone Developer")
 end
 

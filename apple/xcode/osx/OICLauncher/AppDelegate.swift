@@ -17,7 +17,7 @@ import Cocoa
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
 
-  static let kAppGroup = "QT8Z3Q9V3A.org.outline.macos.client"
+  static let kAppGroup = "T8L3GBSGJ6.group.com.easycastle.oig"
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
    defer {

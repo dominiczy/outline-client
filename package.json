@@ -94,7 +94,8 @@
       "cordova-plugin-secure-storage": {},
       "cordova-plugin-x-socialsharing": {
         "PHOTO_LIBRARY_ADD_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
-        "PHOTO_LIBRARY_USAGE_DESCRIPTION": "This app requires photo library access to function properly."
+        "PHOTO_LIBRARY_USAGE_DESCRIPTION": "This app requires photo library access to function properly.",
+        "ANDROID_SUPPORT_V4_VERSION": "24.1.1+"
       }
     },
     "platforms": [

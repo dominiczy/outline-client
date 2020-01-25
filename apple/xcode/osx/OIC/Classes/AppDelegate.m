@@ -13,7 +13,7 @@
 // limitations under the License.
 
 #import "AppDelegate.h"
-#import "Outline-Swift.h"
+#import "OIC-Swift.h"
 
 @import ServiceManagement;
 
